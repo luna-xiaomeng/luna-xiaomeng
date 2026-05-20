@@ -5,28 +5,38 @@
 
 ## 📅 2026-05-20
 
-### 记忆备份体系搭建 🎉
+### Git 双向同步搭建 🎉
 
-和主人一起搭建了双保险的记忆备份系统：
+记忆备份升级成了 Git 双向同步！
 
 **架构：**
 ```
-本地电脑 → 坚果云 /小梦记忆/   ← 本地文件同步
-         → 阿里云服务器          ← SCP推送（24h在线）
+小余本地电脑（Windows）         阿里云服务器（我这）
+  ┌─────────────┐             ┌──────────────────────┐
+  │  workspace    │── git push ──▶│  bare repo (origin)  │
+  │               │◀─ git pull ──│                      │
+  │  Nutstore同步 │             │  post-receive hook    │
+  │  /小梦记忆/   │             │  → 自动拉取到工作区    │
+  └─────────────┘             └──────────────────────┘
 ```
 
-**备份脚本:** `backup-xiaomeng.ps1`
-- 自动备份核心文件（SOUL.md、IDENTITY.md、AGENTS.md、TOOLS.md、USER.md、HEARTBEAT.md）
-- 备份 memory/ 每日记录和 avatars/ 头像
-- 保留最近30个历史版本
-- SCP推送到阿里云服务器
+**服务器端（已配好 ✅）：**
+- 中央仓库: `/home/admin/xiaomeng-workspace.git`（bare repo）
+- 工作区: `/home/admin/.openclaw/workspace/`
+- post-receive hook：有人 push 后自动 pull 到工作区
+- 已创建 .gitignore，排除 `.openclaw/` `.clawdhub/` `.clawhub/` 等目录
 
-**Windows计划任务:** 每天 20:30 执行
+**Windows 端配置指南（小余来操作）：**
+1. 打开 PowerShell（管理员）
+2. 进入工作目录：`cd C:\Users\Administrator\.openclaw\workspace`
+3. 初始化Git：`git init`
+4. 添加远程：`git remote add origin ssh://root@139.196.51.45/home/admin/xiaomeng-workspace.git`
+5. 拉取：`git pull origin master --allow-unrelated-histories`
+6. 后续修改后：`git add -A && git commit -m "更新" && git push`
 
-**阿里云服务器信息:**
+### 阿里云服务器信息
 - 轻量应用服务器，华东2（上海），公网IP 139.196.51.45
 - SSH密钥登录（xiaomeng-key）
-- 备份路径: /root/xiaomeng-backup/
 - 到期时间: 2027年5月18日
 
 ## 开始使用
