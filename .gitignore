@@ -1,0 +1,15 @@
+# OpenClaw internal
+.openclaw/
+.clawdhub/
+.clawhub/
+backup_log.txt
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temp
+*.tmp
+*~
