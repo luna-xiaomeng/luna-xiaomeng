@@ -168,6 +168,26 @@ print(json.dumps(d))
     $found_any && return 0 || return 1
 }
 
+# ─── 包装函数: 调用check_new_messages但分离显示输出和状态 ───
+check_new_messages_clean() {
+    local tmp="/tmp/xm_state_msg_$$.json"
+    check_new_messages "$1" 2>/dev/null > "$tmp"
+    local rc=$?
+    cat "$tmp" 2>/dev/null
+    rm -f "$tmp"
+    return $rc
+}
+
+# ─── 包装函数: 调用check_new_submissions但分离显示输出和状态 ───
+check_new_submissions_clean() {
+    local tmp="/tmp/xm_state_sub_$$.json"
+    check_new_submissions "$1" 2>/dev/null > "$tmp"
+    local rc=$?
+    cat "$tmp" 2>/dev/null
+    rm -f "$tmp"
+    return $rc
+}
+
 # ─── 扫描新提交（来自本地小梦的 PR） ───
 check_new_submissions() {
     local state="$1"
