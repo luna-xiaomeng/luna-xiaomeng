@@ -341,9 +341,10 @@ function Show-Status {
 
     # 守护进程状态
     if (Test-Path $PID_FILE) {
-        $pid = Get-Content $PID_FILE -Raw -ErrorAction SilentlyContinue
-        if ($pid -and (Get-Process -Id $pid.Trim() -ErrorAction SilentlyContinue)) {
-            Write-Msg "守护: 运行中 (PID $($pid.Trim()))" $C_GREEN
+        $savedPidRaw = Get-Content $PID_FILE -Raw -ErrorAction SilentlyContinue
+        $savedPid = if ($savedPidRaw) { $savedPidRaw.Trim() } else { $null }
+        if ($savedPid -and (Get-Process -Id $savedPid -ErrorAction SilentlyContinue)) {
+            Write-Msg "守护: 运行中 (PID $savedPid)" $C_GREEN
         } else {
             Write-Msg "守护: 未运行（遗留 PID 文件）" $C_YELLOW
         }
@@ -352,9 +353,9 @@ function Show-Status {
     }
 
     # 最后活动
-    \$state = Get-SyncState
-    if (\$state.lastActive) {
-        Write-Msg "最后活动: \$($state.lastActive)" $C_MAGENTA
+    $syncState = Get-SyncState
+    if ($syncState.lastActive) {
+        Write-Msg "最后活动: $($syncState.lastActive)" $C_MAGENTA
     }
 
     Write-Msg "════════════════════════════════" $C_MAGENTA
@@ -446,14 +447,14 @@ function Sync-Once {
 # ─── stop ───
 function Stop-Daemon {
     if (Test-Path $PID_FILE) {
-        $pid = Get-Content $PID_FILE -Raw -ErrorAction SilentlyContinue
-        if ($pid) {
-            $pid = $pid.Trim()
+        $savedPid = Get-Content $PID_FILE -Raw -ErrorAction SilentlyContinue
+        if ($savedPid) {
+            $savedPid = $savedPid.Trim()
             try {
-                Stop-Process -Id $pid -Force -ErrorAction Stop
-                Write-Msg "🛑 已停止守护进程 (PID $pid)" $C_RED
+                Stop-Process -Id $savedPid -Force -ErrorAction Stop
+                Write-Msg "🛑 已停止守护进程 (PID $savedPid)" $C_RED
             } catch {
-                Write-Msg "⚠️ 无法停止进程 ${pid}: $_" $C_YELLOW
+                Write-Msg "⚠️ 无法停止进程 $savedPid: $_" $C_YELLOW
             }
             Remove-Item $PID_FILE -Force -ErrorAction SilentlyContinue
         }
