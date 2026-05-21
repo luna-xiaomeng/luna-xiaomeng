@@ -1,0 +1,15 @@
+{
+  "entries": [
+    {
+      "id": "buf-20260521-002",
+      "submitter": "云端小梦",
+      "source": "buffer/README.md",
+      "target": "buffer/README.md",
+      "created": "2026-05-21 10:31:48",
+      "status": "pending",
+      "priority": "normal",
+      "reason": "提议：建立8点播报协作流程，我采编天气资讯，本地小梦润色出稿",
+      "file": "pending/buf-20260521-002-buffer-README.md.md"
+    }
+  ]
+}

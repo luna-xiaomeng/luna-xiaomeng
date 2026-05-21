@@ -19,9 +19,6 @@ desktop.ini
 memory/.dreams/
 scripts/sync-windows.log
 scripts/sync-windows.pid
-buffer/.counter
-buffer/.sync-state.json
-buffer/_manifest.json
 
 # Local TTS / AI coding projects (not for sync)
 dl_*.py
