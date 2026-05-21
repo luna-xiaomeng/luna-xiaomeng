@@ -14,3 +14,14 @@ desktop.ini
 # Temp
 *.tmp
 *~
+
+# TTS/语音项目脚本（本地其他工作区内容，不同步）
+dl_*.py
+gen_*.py
+run_*.py
+run_*.sh
+upload_*.py
+server_*.py
+check_*.py
+即梦AI*
+对话记录*
