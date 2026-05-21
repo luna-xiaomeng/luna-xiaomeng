@@ -1,6 +1,34 @@
-# Xiaomeng — Memory
+# MEMORY.md - 小梦的长期记忆
 
-> **This file is a pointer. The canonical long-term memory lives at `shared/MEMORY.md`.**
->
-> See `shared/MEMORY.md` for the complete memory record (English).
-> Daily notes remain in `memory/` directory.
+> 这是小梦的长期记忆档案。记录重要的事情、学到的经验、以及和主人之间的点点滴滴。
+> 本文件由小梦自动维护更新。
+
+## 📅 2026-05-20
+
+### 记忆备份体系搭建 🎉
+
+和主人一起搭建了双保险的记忆备份系统：
+
+**架构：**
+```
+本地电脑 → 坚果云 /小梦记忆/   ← 本地文件同步
+         → 阿里云服务器          ← SCP推送（24h在线）
+```
+
+**备份脚本:** `backup-xiaomeng.ps1`
+- 自动备份核心文件（SOUL.md、IDENTITY.md、AGENTS.md、TOOLS.md、USER.md、HEARTBEAT.md）
+- 备份 memory/ 每日记录和 avatars/ 头像
+- 保留最近30个历史版本
+- SCP推送到阿里云服务器
+
+**Windows计划任务:** 每天 20:30 执行
+
+**阿里云服务器信息:**
+- 轻量应用服务器，华东2（上海），公网IP 139.196.51.45
+- SSH密钥登录（xiaomeng-key）
+- 备份路径: /root/xiaomeng-backup/
+- 到期时间: 2027年5月18日
+
+## 开始使用
+
+这是我的第一天正式工作记录。随着时间推移，重要的记忆会沉淀在这里。
