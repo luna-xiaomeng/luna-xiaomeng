@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-19T00:17:58.318Z",
+  "updatedAt": "2026-05-21T01:50:13.760Z",
   "entries": {
     "memory:memory/2026-05-18.md:1:22": {
       "key": "memory:memory/2026-05-18.md:1:22",
@@ -31,6 +31,37 @@
         "plugins.allow",
         "swasnext.console.aliyun.com",
         "存档"
+      ]
+    },
+    "memory:memory/2026-05-16.md:28:49": {
+      "key": "memory:memory/2026-05-16.md:28:49",
+      "path": "memory/2026-05-16.md",
+      "startLine": 28,
+      "endLine": 49,
+      "source": "memory",
+      "snippet": "- ✅ 文案已确定: \"批发土鸡蛋的老板看过来！我们家做的是纯正散养土鸡蛋，蛋黄大，蛋清浓，口感香。一件也是批发价，全国各地都能发货。有需要的老板留个联系方式。\" - ✅ 已尝试: Edge TTS Yunyang（太新闻腔）、ChatTTS（太年轻）、Edge TTS Yunjian（最接近） - ✅ 最佳版本: Edge TTS Yunjian + 仓库混响处理 - ⏳ 用户说\"版本1更好但不够真实\"，已加混响处理，等反馈 - ⏳ 用户还没确认最终版 ### 抖音账号 - 千鸟官山（抖音号: 25033292378, 粉丝2324） - 土鸡蛋批发店铺 ### 待办 - [ ] 用户确认最终版后：发布到抖音（定时） - [ ] 继续装 SadTalker 做唇形同步（需下载 safetensors 模型权重） - [ ] 剩余客户回复：诺言, 苍渊, 乄㥐, 好人一生平安, 星途（需滚聊天列表） - [ ] 廖国（18871354354）已添加到 KDocs - [ ] 发布视频需上传至 C:\\Users\\Administrator\\Downloads\\assistant-media.mp4（文案\"123\"，定时20:00） ### 关键决策 - 视频使用两段 I2V 拼接 + 配音，不做唇形同步（等后续） - 配音使用 Edge TTS Yunjian + 仓库混响（目前最佳方案） - 服务器网络慢，下载文件费时",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-21T01:50:13.760Z",
+      "lastRecalledAt": "2026-05-21T01:50:13.760Z",
+      "queryHashes": [
+        "e7d0ce69569a"
+      ],
+      "recallDays": [
+        "2026-05-21"
+      ],
+      "conceptTags": [
+        "网络",
+        "assistant-media.mp4",
+        "文案",
+        "确定",
+        "批发",
+        "鸡蛋",
+        "老板",
+        "看过来"
       ]
     }
   }
