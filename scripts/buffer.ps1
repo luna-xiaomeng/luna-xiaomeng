@@ -50,8 +50,8 @@ $C_DKGRAY = "DarkGray"
 
 # --- Helpers ---
 function Write-BomFile($path, $content) {
-    $utf8Bom = New-Object System.Text.UTF8Encoding $true
-    [System.IO.File]::WriteAllText($path, $content, $utf8Bom)
+    $utf8 = New-Object System.Text.UTF8Encoding $true
+    [System.IO.File]::WriteAllText($path, $content, [System.Text.Encoding]::UTF8)
 }
 
 function Get-NextId {
