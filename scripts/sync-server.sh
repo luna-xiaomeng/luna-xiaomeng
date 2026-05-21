@@ -6,7 +6,7 @@
 #   2. 每 20 秒 git pull ← 本地/别处的变更同步到服务器
 # ════════════════════════════════════════════════════════════
 
-WORKSPACE="/root/.openclaw/workspace"
+WORKSPACE="/home/admin/.openclaw/workspace"
 LOG_FILE="$WORKSPACE/scripts/sync-server.log"
 PID_FILE="$WORKSPACE/scripts/sync-server.pid"
 
