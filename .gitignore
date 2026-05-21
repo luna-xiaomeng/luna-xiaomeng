@@ -4,6 +4,7 @@
 .clawhub/
 backup_log.txt
 *.log
+*.pid
 
 # OS files
 .DS_Store
