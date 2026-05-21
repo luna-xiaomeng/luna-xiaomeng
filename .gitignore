@@ -30,3 +30,4 @@ server_*.py
 check_*.py
 即梦AI*
 对话记录*
+private/
