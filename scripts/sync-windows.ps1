@@ -111,26 +111,32 @@ function Invoke-GitSync {
     try {
         Push-Location $WORKSPACE
 
-        # ── Pull ──
+        # ── Pull: 安全拉取（仅 fast-forward，绝不 rebase）──
+        # ??? 之前用的 git pull --rebase --autostash 会导致：
+        #    1. 双守护进程互相踩踏状态文件
+        #    2. --autostash 保存旧状态后恢复，可能覆盖新文件
+        #    3. rebase 将守护的旧提交移至远程之上，可能删文件
+        #    改用 --ff-only：拉取不成功就跳过本轮，绝不动现有文件！
         $oldHash = Get-GitHeadHash
-        $pullOut = git pull --rebase --autostash 2>&1
-
-        if ($LASTEXITCODE -ne 0) {
-            # 合并冲突 → 回退到 --no-rebase
-            git merge --abort 2>$null
-            $pullOut2 = git pull --no-rebase --autostash 2>&1
+        
+        # 方案: fetch + 尝试 fast-forward
+        git fetch origin 2>&1
+        $ffCheck = git merge-base --is-ancestor HEAD origin/master 2>&1
+        if ($LASTEXITCODE -eq 0) {
+            # 可以 fast-forward，安全拉取
+            $pullOut = git merge --ff-only origin/master 2>&1
             if ($LASTEXITCODE -eq 0) {
-                Write-Msg "[PULL] 拉取成功（合并模式）" $C_GREEN
+                if ($pullOut -notmatch 'Already up to date') {
+                    Write-Msg "[PULL] 拉取成功" $C_GREEN
+                }
             } else {
-                Write-Msg "[ERR] 拉取失败：$pullOut2" $C_RED
-                $script:syncing = $false
-                Pop-Location
-                return $false
+                Write-Msg "[ERR] Fast-forward 失败: $pullOut" $C_RED
             }
         } else {
-            if ($pullOut -notmatch "Already up to date") {
-                Write-Msg "[PULL] 检测到远程更新" $C_GREEN
-            }
+            # 不能 fast-forward → 远程有分歧历史
+            # 保护本地文件：不强行拉取，跳过本轮
+            # 守护进程的本地变更会在下一轮循环中被提交
+            Write-Msg "[SKIP] 远程提交与本地分歧，跳过本轮（保护本地文件）" $C_YELLOW
         }
 
         $newHash = Get-GitHeadHash
@@ -143,14 +149,23 @@ function Invoke-GitSync {
             $hasBufferChanges = $status -match '^\s*[MA]\s+buffer/'
             $hasFileChanges = $status -match '^\s*[MA]\s+(?!buffer/)'
 
-            git add -A 2>&1 | Out-Null
-            git commit -m "🔄 自动同步 $(Get-Date -Format 'yyyy-MM-dd HH:mm')" 2>&1 | Out-Null
+            # 安全提交: 只添加已跟踪文件的修改 + buffer/ 目录
+            # 不添加未跟踪的新文件，更不会提交删除文件
+            # 避免同步守护把工作区未及时拉取的文件覆盖
+            git add -u 2>&1 | Out-Null          # 已跟踪文件的修改
+            git add buffer/ 2>&1 | Out-Null      # buffer 通信目录
+            git add scripts/ 2>&1 | Out-Null     # 脚本目录
+            git add memory/ 2>&1 | Out-Null      # 日记目录
+            git add shared/ 2>&1 | Out-Null      # 共享记忆目录
 
-            $pushOut = git push origin master 2>&1
+            $commitOut = git commit -m "🔄 自动同步 $(Get-Date -Format 'yyyy-MM-dd HH:mm')" 2>&1
             if ($LASTEXITCODE -eq 0) {
-                Write-Msg "[PUSH] 成功（$(@($status).Count) 个文件）" $C_GREEN
-            } else {
-                Write-Msg "[ERR] 推送失败：$pushOut" $C_RED
+                $pushOut = git push origin master 2>&1
+                if ($LASTEXITCODE -eq 0) {
+                    Write-Msg "[PUSH] 成功（$(@($status).Count) 个文件改动）" $C_GREEN
+                } else {
+                    Write-Msg "[ERR] 推送失败：$pushOut" $C_RED
+                }
             }
         }
 
@@ -438,7 +453,7 @@ function Stop-Daemon {
                 Stop-Process -Id $pid -Force -ErrorAction Stop
                 Write-Msg "🛑 已停止守护进程 (PID $pid)" $C_RED
             } catch {
-                Write-Msg "⚠️ 无法停止进程 $pid: $_" $C_YELLOW
+                Write-Msg "⚠️ 无法停止进程 ${pid}: $_" $C_YELLOW
             }
             Remove-Item $PID_FILE -Force -ErrorAction SilentlyContinue
         }
