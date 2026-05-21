@@ -84,36 +84,50 @@ sync_git() {
 
     cd "$WORKSPACE" || { SYNCING=false; return 1; }
 
-    # ── Pull ──
+    # ── Pull: 安全拉取（仅 fast-forward，绝不 rebase）──
+    # ⚠️ 之前用的 git pull --rebase --autostash 会导致：
+    #    1. 双守护进程互相踩踏状态文件
+    #    2. --autostash 保存旧状态后恢复，可能覆盖新文件
+    #    3. rebase 将守护的旧提交移至远程之上，可能删文件
+    #    改用 --ff-only：拉取不成功就跳过本轮，绝不动现有文件！
     local old_hash=$(get_head_hash)
-    local pull_out=$(git pull --rebase --autostash 2>&1)
 
-    if [ $? -ne 0 ]; then
-        git merge --abort 2>/dev/null
-        pull_out=$(git pull --no-rebase --autostash 2>&1)
+    # fetch + 尝试 fast-forward
+    git fetch origin 2>&1
+    if git merge-base --is-ancestor HEAD origin/master 2>/dev/null; then
+        # 可以 fast-forward，安全拉取
+        local pull_out=$(git merge --ff-only origin/master 2>&1)
         if [ $? -eq 0 ]; then
-            ok "[PULL] 拉取成功（合并模式）"
+            echo "$pull_out" | grep -q "Already up to date" || ok "[PULL] 拉取成功"
         else
-            err "[ERR] 拉取失败：$pull_out"
-            SYNCING=false
-            return 1
+            err "[ERR] Fast-forward 失败: $pull_out"
         fi
     else
-        echo "$pull_out" | grep -q "Already up to date" || ok "[PULL] 检测到远程更新"
+        # 不能 fast-forward → 远程有分歧历史
+        # 保护本地文件：不强行拉取，跳过本轮
+        info "[SKIP] 远程提交与本地分歧，跳过本轮（保护本地文件）"
     fi
 
     local new_hash=$(get_head_hash)
     [ "$old_hash" != "$new_hash" ] && has_new=true
 
-    # ── Push ──
+    # ── Push（如果有本地变更） ──
     local status=$(git status --porcelain 2>&1)
     if [ -n "$status" ]; then
-        git add -A 2>/dev/null
+        # 安全提交: 只添加已跟踪文件的修改 + 关键目录
+        # 不添加未跟踪的新文件，更不会提交删除文件
+        # 避免同步守护把工作区未及时拉取的文件覆盖
+        git add -u 2>/dev/null           # 已跟踪文件的修改
+        git add buffer/ 2>/dev/null       # buffer 通信目录
+        git add scripts/ 2>/dev/null      # 脚本目录  
+        git add memory/ 2>/dev/null       # 日记目录
+        git add shared/ 2>/dev/null       # 共享记忆目录
+
         git commit -m "🔄 自动同步 $(date '+%Y-%m-%d %H:%M')" 2>/dev/null
         local push_out=$(git push origin master 2>&1)
         if [ $? -eq 0 ]; then
             local fcount=$(echo "$status" | wc -l)
-            ok "[PUSH] 成功（${fcount} 个文件）"
+            ok "[PUSH] 成功（${fcount} 个文件改动）"
         else
             err "[ERR] 推送失败：$push_out"
         fi
