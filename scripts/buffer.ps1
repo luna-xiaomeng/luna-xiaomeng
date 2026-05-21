@@ -109,32 +109,33 @@ function Get-Body($path) {
 }
 
 function Update-FileStatus($path, $newStatus, $reviewer, $reviewNote, $extraField, $extraValue) {
-    $content = Get-Content $path -Raw -Encoding UTF8 -ErrorAction SilentlyContinue
+    $content = [System.IO.File]::ReadAllText($path)
     if (-not $content) { return }
-    $content = $content -replace '(?m)^status:.*', "status: $newStatus"
-    if ($reviewer) {
-        if ($content -match '(?m)^reviewer:') {
-            $content = $content -replace '(?m)^reviewer:.*', "reviewer: $reviewer"
-        } else {
-            $content = $content -replace '(?m)^---$', "reviewer: $reviewer`n---"
+    # Split front matter and body
+    if ($content -match '(?s)^---\s*\n(.+?)\n---') {
+        $fmBlock = $Matches[1]
+        $bodyStart = $Matches[0].Length
+        $body = $content.Substring($bodyStart)
+        $fmLines = $fmBlock -split '\r?\n'
+        $keep = @{}
+        foreach ($line in $fmLines) {
+            if ($line -match '^(\w+):(.*)$') {
+                $keep[$Matches[1]] = $Matches[2].Trim()
+            }
         }
-    }
-    if ($reviewNote) {
-        if ($content -match '(?m)^review_note:') {
-            $content = $content -replace '(?m)^review_note:.*', "review_note: $reviewNote"
-        } else {
-            $content = $content -replace '(?m)^---$', "review_note: $reviewNote`n---"
+        # Update fields
+        $keep['status'] = $newStatus
+        if ($reviewer) { $keep['reviewer'] = $reviewer }
+        if ($reviewNote) { $keep['review_note'] = $reviewNote }
+        if ($extraField -and $extraValue) { $keep[$extraField] = $extraValue }
+        # Rebuild front matter
+        $newFmLines = @()
+        foreach ($key in $keep.Keys) {
+            $newFmLines += ("${key}: " + $keep[$key])
         }
+        $newContent = "---`n" + ($newFmLines -join "`n") + "`n---" + $body
+        [System.IO.File]::WriteAllText($path, $newContent, [System.Text.UTF8Encoding]::new($true))
     }
-    if ($extraField -and $extraValue) {
-        $pattern = "(?m)^${extraField}:"
-        if ($content -match $pattern) {
-            $content = $content -replace "(?m)^${extraField}:.*", "${extraField}: $extraValue"
-        } else {
-            $content = $content -replace '(?m)^---$', "${extraField}: $extraValue`n---"
-        }
-    }
-    Write-BomFile $path $content
 }
 
 function Update-Manifest($id, $status, $file, $extra) {
