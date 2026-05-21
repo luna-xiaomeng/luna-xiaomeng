@@ -82,11 +82,14 @@ function Get-SyncState {
         lastPush = $null
         seenMessages = @()       # 已处理的消息文件名列表
         seenSubmitIds = @()      # 已处理的提交ID列表
+        lastActive = $null       # 最后活动者: "本地小梦 🖥️" / "云端小梦 ☁️" + 时间
         lastRemoteHash = ""      # 上次 pull 后的 remote HEAD hash
     }
 }
 
 function Save-SyncState($state) {
+    # 自动标记最后活动者
+    $state.lastActive = "$SELF_NAME @ $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
     $json = $state | ConvertTo-Json -Depth 3
     $utf8Bom = New-Object System.Text.UTF8Encoding $true
     [System.IO.File]::WriteAllText($STATE_FILE, $json, $utf8Bom)
