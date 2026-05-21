@@ -409,7 +409,7 @@ function Action-Message {
         $nextNum = $max + 1
     }
     $stamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    $padded = "$("{0:D4}" -f $nextNum)-from-local.md"
+    $padded = $("{0:D4}" -f $nextNum) + "-from-local.md"
     $msgContent = @"
 > **From: Local Xiaomeng [PC]**
 > **Time: $stamp**
