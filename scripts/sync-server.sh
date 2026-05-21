@@ -144,7 +144,7 @@ check_new_messages() {
         found_any=true
         echo ""
         title "────────── 新留言 ──────────"
-        echo -e " ${CYAN}💬 $PEER_NAME${NC}" >&2
+        echo -e " ${CYAN}💬 $PEER_NAME${NC}"
         # 显示消息内容（去掉第一行 > 前缀美化显示）
         while IFS= read -r line; do
             local trimmed="$(echo "$line" | sed 's/^> //')"
@@ -191,7 +191,7 @@ check_new_submissions() {
         [[ "$submitter" == *"本地"* ]] || continue
         found_any=true
 
-\1warn "📦 [$id] $source"
+        warn "📦 [$id] $source"
         [ -n "$reason" ] && info "   原因: $reason"
 
         # 标记已处理
