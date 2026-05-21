@@ -227,7 +227,7 @@ action_list() {
     echo -e "${DKGRAY}═══════════════════════════════════════${NC}"
     
     # pending
-    local pending_files=("$PENDING"/*.md 2>/dev/null)
+    local pending_files=("$PENDING"/*.md)
     if [ ${#pending_files[@]} -gt 0 ] && [ -f "${pending_files[0]}" ]; then
         echo ""
         warn "⏳ 待审核 (${#pending_files[@]})"
@@ -239,7 +239,7 @@ action_list() {
     
     if [ -n "$show_all" ]; then
         # approved
-        local approved_files=("$APPROVED"/*.md 2>/dev/null)
+        local approved_files=("$APPROVED"/*.md)
         if [ ${#approved_files[@]} -gt 0 ] && [ -f "${approved_files[0]}" ]; then
             echo ""
             ok "✅ 已批准 (${#approved_files[@]})"
@@ -250,7 +250,7 @@ action_list() {
         fi
         
         # merged
-        local merged_files=("$MERGED"/*.md 2>/dev/null)
+        local merged_files=("$MERGED"/*.md)
         if [ ${#merged_files[@]} -gt 0 ] && [ -f "${merged_files[0]}" ]; then
             echo ""
             info "📦 已合并 (${#merged_files[@]})"
@@ -261,7 +261,7 @@ action_list() {
         fi
         
         # rejected
-        local rejected_files=("$REJECTED"/*.md 2>/dev/null)
+        local rejected_files=("$REJECTED"/*.md)
         if [ ${#rejected_files[@]} -gt 0 ] && [ -f "${rejected_files[0]}" ]; then
             echo ""
             err "❌ 已拒绝 (${#rejected_files[@]})"
@@ -273,7 +273,7 @@ action_list() {
     fi
     
     # messages
-    local msg_files=("$MESSAGES_DIR"/*.md 2>/dev/null)
+    local msg_files=("$MESSAGES_DIR"/*.md)
     if [ ${#msg_files[@]} -gt 0 ] && [ -f "${msg_files[0]}" ]; then
         echo ""
         echo -e "${CYAN}💬 留言 (${#msg_files[@]})${NC}"
@@ -578,7 +578,7 @@ action_message() {
     fi
     
     local next_num=1
-    local existing=("$MESSAGES_DIR"/*.md 2>/dev/null)
+    local existing=("$MESSAGES_DIR"/*.md)
     if [ ${#existing[@]} -gt 0 ] && [ -f "${existing[0]}" ]; then
         local max=0
         for f in "${existing[@]}"; do
