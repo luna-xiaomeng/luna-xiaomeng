@@ -159,6 +159,7 @@ d = json.load(sys.stdin)
 if '$base' not in d['seenMessages']:
     d['seenMessages'].append('$base')
 d['lastSync'] = '$(date -Iseconds)'
+d['lastActive'] = '云端小梦 ☁️ @ $(date -Iseconds)'
 print(json.dumps(d))
 " 2>/dev/null || echo "$state")
     done
@@ -200,6 +201,7 @@ d = json.load(sys.stdin)
 if '$basenoext' not in d['seenSubmitIds']:
     d['seenSubmitIds'].append('$basenoext')
 d['lastSync'] = '$(date -Iseconds)'
+d['lastActive'] = '云端小梦 ☁️ @ $(date -Iseconds)'
 print(json.dumps(d))
 " 2>/dev/null || echo "$state")
     done
@@ -263,6 +265,7 @@ import json, sys
 d = json.load(sys.stdin)
 d['seenMessages'].append('$filename')
 d['lastSync'] = '$(date -Iseconds)'
+d['lastActive'] = '云端小梦 ☁️ @ $(date -Iseconds)'
 print(json.dumps(d))
 " 2>/dev/null)
     save_state "$state"
