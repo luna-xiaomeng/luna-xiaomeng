@@ -15,7 +15,15 @@ desktop.ini
 *.tmp
 *~
 
-# TTS/语音项目脚本（本地其他工作区内容，不同步）
+# Runtime / auto-generated
+memory/.dreams/
+scripts/sync-windows.log
+scripts/sync-windows.pid
+buffer/.counter
+buffer/.sync-state.json
+buffer/_manifest.json
+
+# Local TTS / AI coding projects (not for sync)
 dl_*.py
 gen_*.py
 run_*.py
