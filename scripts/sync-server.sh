@@ -59,7 +59,7 @@ try:
     d = json.load(open('$STATE_FILE'))
     print(json.dumps(d))
 except:
-    print('{\"seenMessages\":[],\"seenSubmitIds\":[],\"lastSync\":null}')
+    print('{\"seenMessages\":[],\"seenSubmitIds\":[],\"lastSync\":null,\"lastActive\":null}')
 " 2>/dev/null || echo '{"seenMessages":[],"seenSubmitIds":[],"lastSync":null,"lastActive":null}'
     else
         echo '{"seenMessages":[],"seenSubmitIds":[],"lastSync":null,"lastActive":null}'
