@@ -386,12 +386,11 @@ start_daemon() {
 
         # 每 15s 检查（不阻塞，用 inotify 超时）
         if [ $((now - last_pull)) -ge 15 ]; then
-            if sync_git; then
+            sync_git
                 local state=$(get_state)
                 state=$(check_new_messages "$state")
                 state=$(check_new_submissions "$state")
                 save_state "$state"
-            fi
             last_pull=$now
             continue
         fi
@@ -404,12 +403,11 @@ start_daemon() {
             "$WORKSPACE" 2>/dev/null)
 
         if [ -n "$changed" ]; then
-            if sync_git; then
+            sync_git
                 local state=$(get_state)
                 state=$(check_new_messages "$state")
                 state=$(check_new_submissions "$state")
                 save_state "$state"
-            fi
             last_pull=$(date +%s)
         fi
     done
