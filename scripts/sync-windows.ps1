@@ -3,7 +3,7 @@
 ║  小梦全功能同步守护 (Windows / PowerShell)                   ║
 ║                                                              ║
 ║  功能:                                                       ║
-║    • Git 双向同步（Pull + Push，10s 间隔）                   ║
+║    • Git 双向同步（Pull + Push，30s 间隔）                   ║
 ║    • 缓冲区消息监控（自动检测云端小梦留言）                  ║
 ║    • 缓冲区提交流程（pending → approved → merged）          ║
 ║    • 状态追踪（避免重复处理同一消息）                        ║
@@ -486,7 +486,7 @@ function Start-Daemon {
     Write-Msg "📁 工作目录: $WORKSPACE" $C_GRAY
     $remoteUrl = git -C $WORKSPACE remote get-url origin 2>&1
     Write-Msg "🔗 远程库: $remoteUrl" $C_GRAY
-    Write-Msg "⏱  轮询间隔: 10s" $C_GRAY
+    Write-Msg "⏱  轮询间隔: 30s" $C_GRAY
     Write-Msg "  对方: $PEER_NAME @ Gitee" $C_CYAN
     Write-Msg "  日志: $LOG_FILE" $C_GRAY
     Write-Msg "══════════════════════════════════════" $C_MAGENTA
@@ -512,8 +512,8 @@ function Start-Daemon {
     while ($true) {
         $now = Get-Date
 
-        # ── 每 10s 检查本地变更 / 拉取远程 ──
-        if (($now - $lastPullTime).TotalSeconds -ge 10) {
+        # ── 每 30s 检查本地变更 / 拉取远程 ──
+        if (($now - $lastPullTime).TotalSeconds -ge 30) {
             $hasNew = Invoke-GitSync
 
             if ($hasNew) {
