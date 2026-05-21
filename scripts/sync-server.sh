@@ -55,7 +55,7 @@ sync_git() {
     if [ -n "$STATUS" ]; then
         git add -A 2>/dev/null
         git commit -m "🔄 自动同步 $(date '+%Y-%m-%d %H:%M')" 2>/dev/null
-        PUSH_OUT=$(git push origin main 2>&1)
+        PUSH_OUT=$(git push origin master 2>&1)
         if [ $? -eq 0 ]; then
             FILE_COUNT=$(echo "$STATUS" | wc -l)
             log "⬆️ Push 成功 (${FILE_COUNT} 文件变更)"

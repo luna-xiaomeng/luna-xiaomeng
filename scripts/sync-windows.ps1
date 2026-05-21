@@ -62,7 +62,7 @@ function Invoke-GitSync {
         if ($status) {
             git add -A 2>&1 | Out-Null
             git commit -m "🔄 自动同步 $(Get-Date -Format 'yyyy-MM-dd HH:mm')" 2>&1 | Out-Null
-            $pushOut = git push origin main 2>&1
+            $pushOut = git push origin master 2>&1
             if ($LASTEXITCODE -eq 0) {
                 Write-Log "⬆️ Push 成功 ($(@($status)).Count 文件变更)"
             } else {
