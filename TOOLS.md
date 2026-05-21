@@ -66,14 +66,6 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
   └── SCP → 阿里云 /root/xiaomeng-backup/ (24h在线)
 ```
 
-## ⚠️ 已知问题
-
-### EBUSY 文件锁定冲突
-- **原因:** 坚果云 (Nutstore) 的 USN Watcher 服务 + Minifilter 驱动会拦截全盘文件 I/O
-- **修复:** `powershell -File scripts/ensure-nutstore-compat.ps1`
-- **手动应急:** `Restart-Service NutstoreDriverSvc, NutstoreUSN`
-- **预防:** 已在 `.openclaw/.nutignore` 配置忽略规则
-
 ---
 
 Add whatever helps you do your job. This is your cheat sheet.
