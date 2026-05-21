@@ -164,7 +164,7 @@ function Find-ById($id, $dirs) {
 }
 
 function Show-Entry($dir, $file) {
-    $path = Join-Path $BUFFER $dir $file
+    $path = Join-Path (Join-Path $BUFFER $dir) $file
     if (-not (Test-Path $path)) { return }
     $data = Get-FrontMatter $path
     $line = "  [$($data.id)] $($data.source)"
