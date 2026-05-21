@@ -311,12 +311,11 @@ show_status() {
 # ─── 手动同步一次 ───
 sync_once() {
     info "[MANUAL] 手动触发一次同步"
-    if sync_git; then
-        local state=$(get_state)
-        state=$(check_new_messages "$state")
-        state=$(check_new_submissions "$state")
-        save_state "$state"
-    fi
+    sync_git
+    local state=$(get_state)
+    state=$(check_new_messages "$state")
+    state=$(check_new_submissions "$state")
+    save_state "$state"
     ok "[DONE] 同步完成"
 }
 
