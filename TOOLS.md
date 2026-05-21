@@ -35,7 +35,7 @@ Things like:
 
 Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
 
-## 小余信息
+## 主人信息
 
 - **地点:** 安徽芜湖鸠江区
 - **每晚8点播报:** 天气预报 + 穿衣建议 + 时事热点 + 电商资讯
