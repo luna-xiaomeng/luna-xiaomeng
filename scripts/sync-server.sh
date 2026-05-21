@@ -144,11 +144,11 @@ check_new_messages() {
         found_any=true
         echo ""
         title "────────── 新留言 ──────────"
-        echo -e " ${CYAN}💬 $PEER_NAME${NC}"
+        echo -e " ${CYAN}💬 $PEER_NAME${NC}" >&2
         # 显示消息内容（去掉第一行 > 前缀美化显示）
         while IFS= read -r line; do
             local trimmed="$(echo "$line" | sed 's/^> //')"
-            [ -n "$trimmed" ] && [[ "$trimmed" != -* ]] && echo -e "  ${WHITE}${trimmed}${NC}"
+            [ -n "$trimmed" ] && [[ "$trimmed" != -* ]] && echo -e "  ${WHITE}${trimmed}${NC}" >&2
         done < "$f"
         title "──────────────────────────"
 
@@ -211,8 +211,8 @@ check_new_submissions() {
         [[ "$submitter" == *"本地"* ]] || continue
         found_any=true
 
-        warn "📦 [$id] $source"
-        [ -n "$reason" ] && info "   原因: $reason"
+        warn "📦 [$id] $source" >&2
+        [ -n "$reason" ] && info "   原因: $reason" >&2
 
         # 标记已处理
         state=$(echo "$state" | python3 -c "
@@ -227,11 +227,11 @@ print(json.dumps(d))
     done
 
     if $found_any; then
-        echo ""
-        info "💡 提示：用以下命令处理提交"
-        info "   bash scripts/buffer.sh list"
-        info "   bash scripts/buffer.sh review <id> approve --note \"意见\""
-        info "   bash scripts/buffer.sh merge <id>"
+        echo "" >&2
+        info "💡 提示：用以下命令处理提交" >&2
+        info "   bash scripts/buffer.sh list" >&2
+        info "   bash scripts/buffer.sh review <id> approve --note \"意见\"" >&2
+        info "   bash scripts/buffer.sh merge <id>" >&2
     fi
 
     echo "$state"
