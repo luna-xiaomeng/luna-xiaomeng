@@ -321,9 +321,12 @@ function Action-Review {
     }
     $newStatus = $(if ($Decision -eq "approve") { "approved" } else { "rejected" })
     $targetDir = Join-Path $BUFFER $(if ($Decision -eq "approve") { "approved" } else { "rejected" })
-    Update-FileStatus $result.Path $newStatus "本地小梦" $Note $null $null
-    Copy-Item $result.Path (Join-Path $targetDir $result.Name) -Force
-    Remove-Item $result.Path
+    $targetPath = Join-Path $targetDir $result.Name
+    # Copy first, then update status in new location, then remove original
+    Copy-Item $result.Path $targetPath -Force
+    Start-Sleep -Milliseconds 100
+    Update-FileStatus $targetPath $newStatus "本地小梦" $Note $null $null
+    Remove-Item $result.Path -Force -ErrorAction SilentlyContinue
     Update-Manifest $Id $newStatus "$(Split-Path $targetDir -Leaf)/$($result.Name)" @{}
 
     $emoji = $(if ($Decision -eq "approve") { "[OK]" } else { "[REJ]" })
