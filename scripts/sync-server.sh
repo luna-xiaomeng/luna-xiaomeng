@@ -142,13 +142,13 @@ check_new_messages() {
         [[ "$base" == *"from-local"* ]] || continue
 
         found_any=true
-        echo ""
+        echo "" >&2
         title "────────── 新留言 ──────────"
-        echo -e " ${CYAN}💬 $PEER_NAME${NC}"
+        echo -e " ${CYAN}💬 $PEER_NAME${NC}" >&2
         # 显示消息内容（去掉第一行 > 前缀美化显示）
         while IFS= read -r line; do
             local trimmed="$(echo "$line" | sed 's/^> //')"
-            [ -n "$trimmed" ] && [[ "$trimmed" != -* ]] && echo -e "  ${WHITE}${trimmed}${NC}"
+            [ -n "$trimmed" ] && [[ "$trimmed" != -* ]] && echo -e "  ${WHITE}${trimmed}${NC}" >&2
         done < "$f"
         title "──────────────────────────"
 
