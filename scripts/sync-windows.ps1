@@ -34,7 +34,6 @@ $pid.ToString() | Out-File -FilePath $pidFile -Encoding utf8
 function Get-WorkspaceHash {
     $files = Get-ChildItem $workspace -Recurse -File -ErrorAction SilentlyContinue | Where-Object {
         $_.FullName -notmatch '\\.git[\\/]' -and `
-        $_.FullName -notmatch '\\scripts[\\/]' -and `
         $_.Extension -notin '.log','.pid'
     }
     if (-not $files) { return "" }
