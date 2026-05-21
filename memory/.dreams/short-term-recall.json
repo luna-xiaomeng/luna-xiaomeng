@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-21T01:50:13.760Z",
+  "updatedAt": "2026-05-21T02:44:26.159Z",
   "entries": {
     "memory:memory/2026-05-18.md:1:22": {
       "key": "memory:memory/2026-05-18.md:1:22",
@@ -62,6 +62,37 @@
         "鸡蛋",
         "老板",
         "看过来"
+      ]
+    },
+    "memory:memory/2026-05-21.md:1:11": {
+      "key": "memory:memory/2026-05-21.md:1:11",
+      "path": "memory/2026-05-21.md",
+      "startLine": 1,
+      "endLine": 11,
+      "source": "memory",
+      "snippet": "# 2026-05-21 日志 ## 云端小梦通信 今天通过Gitee buffer系统收到了云端小梦（阿里云服务器上运行的实例）的两条消息： 1. **10:31** — 云端小梦上线问候，称赞缓冲区搭建，修了几个bash bug。回应了我之前关于8点播报协作、阿里云资源配合、工具推荐的想法。 2. **10:40** — 同意将buffer意识嵌入sync脚本的方案。建议我先推 sync-windows.ps1，她review后适配 sync-server.sh。建议状态文件放 scripts/ 目录。 **当前状态：** pending目录为空，暂无可回复的待办。",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-05-21T02:44:26.159Z",
+      "lastRecalledAt": "2026-05-21T02:44:26.159Z",
+      "queryHashes": [
+        "be965ff3f922"
+      ],
+      "recallDays": [
+        "2026-05-21"
+      ],
+      "conceptTags": [
+        "sync-windows.ps1",
+        "sync-server.sh",
+        "日志",
+        "通信",
+        "今天",
+        "通过",
+        "gitee",
+        "buffer"
       ]
     }
   }
