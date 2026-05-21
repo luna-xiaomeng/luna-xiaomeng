@@ -1,0 +1,15 @@
+﻿{
+    "entries":  [
+                    {
+                        "source":  "HEARTBEAT.md",
+                        "id":  "buf-20260521-001",
+                        "submitter":  "本地小梦",
+                        "reason":  "Testing buffer system - updated heartbeat config",
+                        "created":  "2026-05-21 10:24:36",
+                        "target":  "HEARTBEAT.md",
+                        "status":  "pending",
+                        "priority":  "normal",
+                        "file":  "pending/buf-20260521-001-HEARTBEAT.md.md"
+                    }
+                ]
+}
