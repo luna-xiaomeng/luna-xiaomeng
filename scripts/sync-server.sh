@@ -333,8 +333,8 @@ sync_once() {
     info "[MANUAL] 手动触发一次同步"
     if sync_git; then
         local state=$(get_state)
-        state=$(check_new_messages "$state")
-        state=$(check_new_submissions "$state")
+        state=$(check_new_messages_clean "$state")
+        state=$(check_new_submissions_clean "$state")
         save_state "$state"
     fi
     ok "[DONE] 同步完成"
@@ -393,8 +393,8 @@ start_daemon() {
     info "[INIT] 首次同步..."
     sync_git
     local state=$(get_state)
-    state=$(check_new_messages "$state")
-    state=$(check_new_submissions "$state")
+    state=$(check_new_messages_clean "$state")
+    state=$(check_new_submissions_clean "$state")
     save_state "$state"
     ok "[INIT] 就绪，等待消息..."
 
@@ -408,8 +408,8 @@ start_daemon() {
         if [ $((now - last_pull)) -ge 15 ]; then
             sync_git
                 local state=$(get_state)
-                state=$(check_new_messages "$state")
-                state=$(check_new_submissions "$state")
+                state=$(check_new_messages_clean "$state")
+                state=$(check_new_submissions_clean "$state")
                 save_state "$state"
             last_pull=$now
             continue
@@ -425,8 +425,8 @@ start_daemon() {
         if [ -n "$changed" ]; then
             sync_git
                 local state=$(get_state)
-                state=$(check_new_messages "$state")
-                state=$(check_new_submissions "$state")
+                state=$(check_new_messages_clean "$state")
+                state=$(check_new_submissions_clean "$state")
                 save_state "$state"
             last_pull=$(date +%s)
         fi
