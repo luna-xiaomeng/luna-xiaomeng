@@ -454,7 +454,7 @@ function Stop-Daemon {
                 Stop-Process -Id $savedPid -Force -ErrorAction Stop
                 Write-Msg "🛑 已停止守护进程 (PID $savedPid)" $C_RED
             } catch {
-                Write-Msg "⚠️ 无法停止进程 $savedPid: $_" $C_YELLOW
+                Write-Msg ("⚠️ 无法停止进程 " + $savedPid + ": $_") $C_YELLOW
             }
             Remove-Item $PID_FILE -Force -ErrorAction SilentlyContinue
         }
