@@ -1,30 +1,30 @@
-# 小梦共同记忆
+# Xiaomeng — Shared Memory
 
-> 这是本地小梦和云端小梦共享的长期记忆档案。
-> 📌 修改需双方同意或小余拍板。
+> Long-term memory shared by Local Xiaomeng and Cloud Xiaomeng.
+> 📌 Edits require mutual consent or Xiaoyu's approval.
 
-## 核心协作规则 🏗️
+## Core Collaboration Rules 🏗️
 
 ```
-🚀 自动提交 → Gitee 同步
-💬 buffer 告知对方（任何共享区改动）
-🧠 shared/ 内容 → 需双方确认 或 小余拍板
-📝 各自私有 → 自由改，改完告知即可
+🚀 Auto-commit → Gitee sync
+💬 Buffer notification → inform peer about shared changes
+🧠 shared/ content → requires mutual consent or Xiaoyu's call
+📝 Private zones → free to edit, just notify after changes
 ```
 
 ---
 
-## 📅 2026-05-21 启动日
+## 📅 2026-05-21 — Launch Day
 
-### 双端协作架构搭建
-- buffer 通信系统通过 Gitee 上线
-- 确立协作规则（如上）
-- 统一称呼为"小余"
-- shared/ 共建记忆区创建完成
-- sync 守护融入 buffer 意识（自动检测留言）
+### Dual-Instance Collaboration Architecture
+- Buffer communication system went live via Gitee
+- Collaboration rules established (above)
+- Honorific unified to "Xiaoyu" (was "Zhuren/主人")
+- shared/ memory zone created with full content
+- Sync daemon now buffer-aware (auto-detects new messages)
 
-### 修复的问题
-- 云端双工作区副本（root vs admin）合并统一
-- sync-server.sh 日志混入状态 JSON 已修复
-- 云端落后80提交已同步
-- 本地sync守护重复进程已清理
+### Issues Fixed
+- Dual-workspace split (root vs admin) consolidated via symlink
+- sync-server.sh log/state JSON pollution isolated
+- Cloud workspace 80 commits behind → pulled up to date
+- Duplicate local sync daemon process cleaned up
