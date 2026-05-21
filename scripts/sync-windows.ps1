@@ -40,7 +40,8 @@ param(
 $WORKSPACE = Split-Path -Parent $PSScriptRoot
 $BUFFER_DIR = Join-Path $WORKSPACE "buffer"
 $MESSAGES_DIR = Join-Path $BUFFER_DIR "_messages"
-$STATE_FILE = Join-Path $BUFFER_DIR ".sync-state.json"
+$STATE_FILE = Join-Path $PSScriptRoot ".sync-state.json"
+$SYNC_STATE_DIR = $PSScriptRoot  # 状态文件统一放 scripts/ 目录
 $LOG_FILE = Join-Path $PSScriptRoot "sync-windows.log"
 $PID_FILE = Join-Path $PSScriptRoot "sync-windows.pid"
 $LOCK_FILE = Join-Path $PSScriptRoot "sync-windows.lock"
