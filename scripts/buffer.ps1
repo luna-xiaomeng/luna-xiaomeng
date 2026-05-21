@@ -89,10 +89,10 @@ function Save-Manifest($manifest) {
 function Get-FrontMatter($path) {
     $content = Get-Content $path -Raw -Encoding UTF8 -ErrorAction SilentlyContinue
     if (-not $content) { return @{} }
-    if ($content -match '^---\s*\n(.+?)\n---') {
+    if ($content -match '(?s)^---\s*\n(.+?)\n---') {
         $fm = $Matches[1]
         $data = @{}
-        foreach ($line in $fm -split "`n") {
+        foreach ($line in $fm -split '\r?\n') {
             if ($line -match '^(\w+):\s*"?([^"]*)"?') {
                 $data[$Matches[1]] = $Matches[2].Trim()
             }
@@ -105,7 +105,7 @@ function Get-FrontMatter($path) {
 function Get-Body($path) {
     $content = Get-Content $path -Raw -Encoding UTF8 -ErrorAction SilentlyContinue
     if (-not $content) { return "" }
-    return $content -replace '^---\s*\n.*?\n---\s*\n', ''
+    return $content -replace '(?s)^---\s*\n.*?\n---\s*\n', ''
 }
 
 function Update-FileStatus($path, $newStatus, $reviewer, $reviewNote, $extraField, $extraValue) {
