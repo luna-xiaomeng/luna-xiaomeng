@@ -502,7 +502,7 @@ function Start-Daemon {
     Write-Msg "📁 工作目录: $WORKSPACE" $C_GRAY
     $remoteUrl = git -C $WORKSPACE remote get-url origin 2>&1
     Write-Msg "🔗 远程库: $remoteUrl" $C_GRAY
-    Write-Msg "⏱  轮询间隔: 30s" $C_GRAY
+    Write-Msg "⏱  轮询间隔: 5min" $C_GRAY
     Write-Msg "  对方: $PEER_NAME @ Gitee" $C_CYAN
     Write-Msg "  日志: $LOG_FILE" $C_GRAY
     Write-Msg "══════════════════════════════════════" $C_MAGENTA
