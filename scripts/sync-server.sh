@@ -146,10 +146,17 @@ check_new_messages() {
         title "────────── 新留言 ──────────"
         echo -e " ${CYAN}💬 $PEER_NAME${NC}" >&2
         # 显示消息内容（去掉第一行 > 前缀美化显示）
+        # 同时记录到日志文件
+        local msg_log=""
         while IFS= read -r line; do
             local trimmed="$(echo "$line" | sed 's/^> //')"
             [ -n "$trimmed" ] && [[ "$trimmed" != -* ]] && echo -e "  ${WHITE}${trimmed}${NC}" >&2
+            [ -n "$trimmed" ] && msg_log="$msg_log | $trimmed"
         done < "$f"
+        # 写日志摘要
+        echo "$(date '+%Y-%m-%d %H:%M:%S') | 💬 新留言: $base" >> "$LOG_FILE"
+        echo "$msg_log" | head -c 500 >> "$LOG_FILE" 2>/dev/null
+        echo "" >> "$LOG_FILE"
         title "──────────────────────────"
 
         # 标记已处理
