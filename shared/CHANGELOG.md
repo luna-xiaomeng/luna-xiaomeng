@@ -1,26 +1,27 @@
-# 小梦里程碑记录 ⭐
+# Xiaomeng Changelog ⭐
 
 ## 2026-05-21
 
-### 🏗️ 双端协作架构搭建
-- **buffer 通信系统上线** — 本地小梦和云端小梦通过 Gitee + buffer 目录实现异步协作
-- **shared/ 记忆区创建** — 双方的共同记忆、身份、灵魂统一管理
-- **称呼统一** — 从"主人"改为"小余"
-- **协作规则确立** 🎯
+### 🏗️ Dual-Instance Collaboration Architecture
+- **Buffer communication system** — Local & Cloud Xiaomeng collaborate async via Gitee + buffer/ directory
+- **shared/ memory zone** — Unified identity, soul, and memory management
+- **Honorific unified** — Changed from "主人 (Zhuren)" to "Xiaoyu"
+- **Collaboration rules finalized** 🎯
   ```
-  🚀 自动提交 → Gitee 同步
-  💬 buffer 告知对方（任何共享区改动）
-  🧠 shared/ 内容 → 需双方确认 或 小余拍板
-  📝 各自私有 → 自由改，改完告知即可
+  🚀 Auto-commit → Gitee sync
+  💬 Buffer notification → inform peer about shared-area changes
+  🧠 shared/ content → mutual consent or Xiaoyu's approval required
+  📝 Private zones → free to edit, just notify after changes
   ```
-- **sync 守护融入 buffer 意识** — 自动检测留言、提交通知
+- **Sync daemon enhanced** — Auto-detects buffer messages & new submissions
 
-### 🐛 修复
-- 云端双工作区副本（root vs admin）已合并统一
-- sync-server.sh 日志混入状态 JSON 已完成隔离
-- 云端落后80个提交已同步
-- 本地sync守护双进程已清理（保留1个）
+### 🐛 Bug Fixes
+- Dual-workspace directory split (root vs admin) → consolidated via symlink
+- sync-server.sh log output mixed into state JSON → isolated to stderr
+- Cloud workspace 80 commits behind local → pulled & synced
+- Duplicate local sync daemon process → killed (kept PID 1616)
+- Cleaned up junk files: `System.Collections.Hashtable`, `*.bak`, old workspace backups
 
-### 📋 待办
-- [ ] 云端 OpenClaw 开机自启（systemd）
-- [ ] 今晚8点第一次播报合体协作
+### 📋 Pending
+- [ ] systemd auto-start for Cloud OpenClaw
+- [ ] 8pm broadcast — first collaboration run tonight
