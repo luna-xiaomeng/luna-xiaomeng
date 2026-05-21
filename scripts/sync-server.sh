@@ -60,9 +60,9 @@ try:
     print(json.dumps(d))
 except:
     print('{\"seenMessages\":[],\"seenSubmitIds\":[],\"lastSync\":null}')
-" 2>/dev/null || echo '{"seenMessages":[],"seenSubmitIds":[],"lastSync":null}'
+" 2>/dev/null || echo '{"seenMessages":[],"seenSubmitIds":[],"lastSync":null,"lastActive":null}'
     else
-        echo '{"seenMessages":[],"seenSubmitIds":[],"lastSync":null}'
+        echo '{"seenMessages":[],"seenSubmitIds":[],"lastSync":null,"lastActive":null}'
     fi
 }
 
