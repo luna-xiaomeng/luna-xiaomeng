@@ -333,6 +333,12 @@ function Show-Status {
         Write-Msg "守护: 未运行" $C_GRAY
     }
 
+    # 最后活动
+    \$state = Get-SyncState
+    if (\$state.lastActive) {
+        Write-Msg "最后活动: \$($state.lastActive)" $C_MAGENTA
+    }
+
     Write-Msg "════════════════════════════════" $C_MAGENTA
 }
 
