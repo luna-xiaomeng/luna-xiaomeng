@@ -43,7 +43,7 @@ DKGRAY='\033[0;90m'
 NC='\033[0m'
 
 # ─── 日志 ───
-log()    { local t=$(date '+%H:%M:%S'); echo -e "${NC}${t} | $1" | tee -a "$LOG_FILE"; }
+log()    { local t=$(date '+%H:%M:%S'); echo -e "${NC}${t} | $1" | tee -a "$LOG_FILE" >&2; }
 info()   { log "${GRAY}$1${NC}"; }
 ok()     { log "${GREEN}$1${NC}"; }
 warn()   { log "${YELLOW}$1${NC}"; }
