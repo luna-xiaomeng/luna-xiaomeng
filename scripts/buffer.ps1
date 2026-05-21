@@ -152,7 +152,8 @@ function Find-ById($id, $dirs) {
     foreach ($dir in $dirs) {
         $full = Join-Path $BUFFER $dir
         if (-not (Test-Path $full)) { continue }
-        $files = Get-ChildItem (Join-Path $full "*.md") -ErrorAction SilentlyContinue
+        $pattern = Join-Path $full "*.md"
+        $files = Get-ChildItem $pattern -ErrorAction SilentlyContinue
         foreach ($f in $files) {
             if ($f.BaseName -like "$id*") {
                 return @{ Path = $f.FullName; Dir = $dir; Name = $f.Name }
@@ -201,7 +202,8 @@ function Action-Submit {
     $today = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $targetPath = $(if ($Target) { $Target } else { $relPath })
     $reasonText = $(if ($Reason) { $Reason } else { "" })
-    $outName = "$id-$(Split-Path $relPath -Leaf).md"
+    $leaf = Split-Path $relPath -Leaf
+    $outName = "$id-$leaf"
     $outPath = Join-Path $PENDING $outName
 
     $header = @"
@@ -248,7 +250,8 @@ function Action-List {
 
     foreach ($dc in $dirConfigs) {
         if ((-not $All) -and ($dc.Name -ne "pending")) { continue }
-        $entries = @(Get-ChildItem (Join-Path $BUFFER $dc.Name "*.md") -ErrorAction SilentlyContinue)
+        $p = Join-Path (Join-Path $BUFFER $dc.Name) "*.md"
+        $entries = @(Get-ChildItem $p -ErrorAction SilentlyContinue)
         if ($entries.Count -eq 0) { continue }
         Write-Host "`n[$($dc.Label)] ($($entries.Count))" -ForegroundColor $dc.Color
         Write-Host ("-" * 30) -ForegroundColor $C_DKGRAY
@@ -258,7 +261,8 @@ function Action-List {
     }
 
     if ($All) {
-        $msgs = @(Get-ChildItem (Join-Path $MESSAGES_DIR "*.md") -ErrorAction SilentlyContinue)
+        $msgPattern = Join-Path $MESSAGES_DIR "*.md"
+        $msgs = @(Get-ChildItem $msgPattern -ErrorAction SilentlyContinue)
         if ($msgs.Count -gt 0) {
             Write-Host "`n[MESSAGES] ($($msgs.Count))" -ForegroundColor $C_CYAN
             Write-Host ("-" * 30) -ForegroundColor $C_DKGRAY
@@ -392,7 +396,8 @@ function Action-Message {
         return
     }
     $nextNum = 1
-    $existing = @(Get-ChildItem (Join-Path $MESSAGES_DIR "*.md") -ErrorAction SilentlyContinue)
+    $mPattern = Join-Path $MESSAGES_DIR "*.md"
+    $existing = @(Get-ChildItem $mPattern -ErrorAction SilentlyContinue)
     if ($existing.Count -gt 0) {
         $max = ($existing | ForEach-Object {
             if ($_.BaseName -match '^(\d+)') { [int]$Matches[1] } else { 0 }
@@ -421,7 +426,8 @@ function Action-Status {
     $approvedCount = @(Get-ChildItem (Join-Path $APPROVED "*.md") -ErrorAction SilentlyContinue).Count
     $mergedCount   = @(Get-ChildItem (Join-Path $MERGED "*.md") -ErrorAction SilentlyContinue).Count
     $rejectedCount = @(Get-ChildItem (Join-Path $REJECTED "*.md") -ErrorAction SilentlyContinue).Count
-    $msgCount      = @(Get-ChildItem (Join-Path $MESSAGES_DIR "*.md") -ErrorAction SilentlyContinue).Count
+    $m = Join-Path $MESSAGES_DIR "*.md"
+    $msgCount      = @(Get-ChildItem $m -ErrorAction SilentlyContinue).Count
 
     Write-Host "`nBuffer Status" -ForegroundColor $C_MAGENTA
     Write-Host ("=" * 40) -ForegroundColor $C_DKGRAY
@@ -437,7 +443,8 @@ function Action-Status {
 
     if ($pendingCount -gt 0) {
         Write-Host "`nPending Items:" -ForegroundColor $C_YELLOW
-        $files = Get-ChildItem (Join-Path $PENDING "*.md") -ErrorAction SilentlyContinue
+        $fPattern = Join-Path $PENDING "*.md"
+        $files = Get-ChildItem $fPattern -ErrorAction SilentlyContinue
         foreach ($f in $files) {
             Show-Entry "pending" $f.Name
         }
