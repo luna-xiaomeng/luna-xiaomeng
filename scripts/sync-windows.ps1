@@ -528,8 +528,8 @@ function Start-Daemon {
     while ($true) {
         $now = Get-Date
 
-        # ── 每 30s 检查本地变更 / 拉取远程 ──
-        if (($now - $lastPullTime).TotalSeconds -ge 30) {
+        # ── 每 5min 检查本地变更 / 拉取远程 ──
+        if (($now - $lastPullTime).TotalSeconds -ge 300) {
             $hasNew = Invoke-GitSync
 
             if ($hasNew) {
@@ -561,7 +561,7 @@ function Start-Daemon {
             $lastPullTime = $now
         }
 
-        # ── 每 30s 刷新状态文件 ──
+        # ── 每 5min 刷新状态文件 ──
         if (($now - $lastStateRefresh) -ge $stateRefreshInterval) {
             $state = Get-SyncState
             $state.lastSync = (Get-Date -Format "o")

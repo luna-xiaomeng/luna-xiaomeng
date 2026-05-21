@@ -404,8 +404,8 @@ start_daemon() {
     while true; do
         local now=$(date +%s)
 
-        # 每 15s 检查（不阻塞，用 inotify 超时）
-        if [ $((now - last_pull)) -ge 15 ]; then
+        # 每 5min 检查（不阻塞，用 inotify 超时）
+        if [ $((now - last_pull)) -ge 300 ]; then
             sync_git
                 local state=$(get_state)
                 state=$(check_new_messages "$state")
@@ -415,11 +415,11 @@ start_daemon() {
             continue
         fi
 
-        # inotify 监控（10s 超时）
+        # inotify 监控（60s 超时）
         local changed=$(inotifywait -r -e modify,create,delete,move \
             --exclude '\.git/|scripts/sync-server\.(pid|log)' \
             --timefmt '%s' --format '%e %f' \
-            -t 10 \
+            -t 60 \
             "$WORKSPACE" 2>/dev/null)
 
         if [ -n "$changed" ]; then
