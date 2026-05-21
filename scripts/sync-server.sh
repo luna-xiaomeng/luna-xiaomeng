@@ -89,28 +89,25 @@ sync_git
 LAST_PULL=$(date +%s)
 
 while true; do
-    # 监控文件变更（阻塞 1 秒，超时继续循环）
-    CHANGED=$(inotifywait -r -e modify,create,delete,move \
-        --exclude '\.git/|scripts/sync-server\.(pid|log)' \
-        --timefmt '%s' --format '%e %f' \
-        "$WORKSPACE" 2>/dev/null)
-
-    # inotifywait 返回非零（比如目录被删除）时继续
-    if [ $? -ne 0 ]; then
-        sleep 5
-        continue
-    fi
-
-    # 有变更 → 同步
-    if [ -n "$CHANGED" ]; then
-        sync_git
-        LAST_PULL=$(date +%s)
-    fi
-
-    # 如果超过 20 秒没同步过，定时拉取
+    # 定时拉取检查：每 20 秒从 Gitee pull 一次
     NOW=$(date +%s)
     if [ $((NOW - LAST_PULL)) -ge 20 ]; then
         sync_git
         LAST_PULL=$NOW
+        # 刚同步过，跳过 inotify 等待，直接下一轮
+        continue
+    fi
+
+    # 监控文件变更（20 秒超时，防止永久阻塞）
+    CHANGED=$(inotifywait -r -e modify,create,delete,move \
+        --exclude '\.git/|scripts/sync-server\.(pid|log)' \
+        --timefmt '%s' --format '%e %f' \
+        -t 20 \
+        "$WORKSPACE" 2>/dev/null)
+
+    # 超时（exit code 0 但无输出）→ 继续循环
+    if [ $? -eq 0 ] && [ -n "$CHANGED" ]; then
+        sync_git
+        LAST_PULL=$(date +%s)
     fi
 done
