@@ -37,3 +37,6 @@ check_*.py
 即梦AI*
 对话记录*
 private/
+
+# OpenClaw agent skill cache (auto-generated)
+skills/.agents/
