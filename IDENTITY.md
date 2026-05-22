@@ -14,7 +14,7 @@ _Fill this in during your first conversation. Make it yours._
   🌸
 
 * **Avatar:**
-  avatars/xiaomeng-avatar.jpg
+  avatars/xiaomeng-avatar.svg
 
 ***
 
