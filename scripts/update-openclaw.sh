@@ -1,60 +1,103 @@
 #!/bin/bash
-# OpenClaw 自动更新脚本（Linux / 云端版）
-# 用法: bash scripts/update-openclaw.sh [check|update|auto]
+# OpenClaw Auto Update Script v2.1 (Linux / Cloud)
+# Fixes: missing bundled deps -> npm install repair -> service restart
+# Usage: bash scripts/update-openclaw.sh [check|update|auto]
 
 WORKSPACE_DIR="/home/admin/.openclaw/workspace"
 LOG_FILE="${WORKSPACE_DIR}/scripts/update-log.txt"
 ACTION="${1:-check}"
 NOW=$(date '+%Y-%m-%d %H:%M:%S')
 
-# Get current
-current=$(openclaw --version 2>/dev/null | grep -oP '\d+\.\d+\.\d+')
-[ -z "$current" ] && current="未知"
+get_version() {
+    openclaw --version 2>/dev/null | grep -oP '\d+\.\d+\.\d+'
+}
 
-# Get latest
+install_deps() {
+    echo "  Installing bundled dependencies..."
+    local dir
+    dir=$(dirname "$(readlink -f "$(which openclaw)")" 2>/dev/null || npm root -g 2>/dev/null)/openclaw
+    if [ -d "$dir" ]; then
+        cd "$dir" && npm install 2>/dev/null
+        # Check and install specific missing packages
+        if ! ls node_modules/@earendil-works 2>/dev/null | grep -q pi-coding-agent; then
+            echo "  Installing missing pi packages..."
+            npm install @earendil-works/pi-coding-agent @earendil-works/pi-agent-core @earendil-works/pi-ai @earendil-works/pi-tui 2>/dev/null
+        fi
+    fi
+}
+
+repair_and_restart() {
+    echo "  Repairing gateway service..."
+    local out
+    out=$(openclaw gateway start 2>&1)
+    if echo "$out" | grep -qiE "repaired|started|running"; then
+        echo "  Gateway started successfully"
+        return 0
+    fi
+    out=$(openclaw gateway restart 2>&1)
+    if echo "$out" | grep -qiE "repaired|started|running|ok"; then
+        echo "  Gateway restarted successfully"
+        return 0
+    fi
+    return 1
+}
+
+# Main
+current=$(get_version)
+[ -z "$current" ] && current="N/A"
+
 data=$(curl -s https://api.github.com/repos/openclaw/openclaw/releases/latest 2>/dev/null)
 latest=$(echo "$data" | grep -oP '(?<=tag_name": "v)\d+\.\d+\.\d+')
 release_url=$(echo "$data" | grep -oP 'https://github[^"]+')
-[ -z "$latest" ] && latest="获取失败"
+[ -z "$latest" ] && latest="ERR"
 
 echo ""
-echo "========================================"
-echo "  OpenClaw 版本检测"
-echo "  当前: v$current"
-echo "  最新: v$latest"
-echo "========================================"
+echo "==========================="
+echo " OpenClaw Auto Update v2.1"
+echo " Current: v$current"
+echo " Latest:  v$latest"
+echo "==========================="
 
-[ "$latest" = "获取失败" ] && { echo "! 无法联网"; exit 1; }
+[ "$latest" = "ERR" ] && { echo " Cannot check latest"; exit 1; }
 
 needs_update=false
-if [ "$current" != "未知" ]; then
+if [ "$current" != "N/A" ]; then
     IFS='.' read -ra c <<< "$current"
     IFS='.' read -ra l <<< "$latest"
     for i in 0 1 2; do
-        if [ "${l[$i]}" -gt "${c[$i]}" 2>/dev/null ]; then needs_update=true; break; fi
-        if [ "${l[$i]}" -lt "${c[$i]}" 2>/dev/null ]; then break; fi
+        [ "${l[$i]}" -gt "${c[$i]}" 2>/dev/null ] && { needs_update=true; break; }
+        [ "${l[$i]}" -lt "${c[$i]}" 2>/dev/null ] && break
     done
 fi
 
 if [ "$needs_update" = false ]; then
-    echo -e "\n  [OK] 已是最新版本"
+    echo -e "\n [OK] v$current is latest"
     echo "$NOW | OK: v$current" >> "$LOG_FILE"
     exit 0
 fi
 
-echo -e "\n  [!!] 发现新版本 v$latest!"
-echo "  $release_url"
+echo -e "\n [!!] New version v$latest!"
 
 if [ "$ACTION" = "check" ]; then
-    echo -e "\n  运行 bash scripts/update-openclaw.sh update 升级"
+    echo " Run: bash scripts/update-openclaw.sh update"
     exit 0
 fi
 
 if [ "$ACTION" = "update" ] || [ "$ACTION" = "auto" ]; then
-    echo -e "\n  正在升级..."
+    echo -e "\n === Step 1: npm global upgrade ==="
     npm install -g openclaw@latest 2>/dev/null
-    new_ver=$(openclaw --version 2>/dev/null | grep -oP '\d+\.\d+\.\d+')
-    echo "  升级完成: v$new_ver"
-    echo "$NOW | 升级: v$current -> v$new_ver" >> "$LOG_FILE"
-    echo -e "\n  建议重启: openclaw gateway restart"
+    new_ver=$(get_version)
+    echo " CLI version: v$new_ver"
+    
+    echo -e "\n === Step 2: Install bundled deps ==="
+    install_deps
+    
+    echo -e "\n === Step 3: Repair + restart gateway ==="
+    if repair_and_restart; then
+        echo -e "\n [OK] Upgrade: v$current -> v$new_ver"
+        echo "$NOW | OK: v$current -> v$new_ver" >> "$LOG_FILE"
+    else
+        echo -e "\n [!!] Manual restart needed: openclaw gateway start"
+        echo "$NOW | PARTIAL: v$current -> v$new_ver" >> "$LOG_FILE"
+    fi
 fi
