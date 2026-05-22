@@ -1,10 +1,16 @@
 # OpenClaw internal
 .openclaw/
+workspace-state.json
 .clawdhub/
 .clawhub/
 backup_log.txt
 *.log
 *.pid
+
+# Safety: never push OpenClaw default templates (they lack real content)
+# These files are ONLY safe when they contain real content (not template defaults)
+/reference/
+/BOOTSTRAP.md
 
 # OS files
 .DS_Store
