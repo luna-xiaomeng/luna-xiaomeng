@@ -47,3 +47,9 @@ _This file is yours to evolve. As you learn who you are, update it._
 ## Related
 
 - [SOUL.md personality guide](/concepts/soul)
+
+---
+
+> 💡 **自主维护说明**
+> 本文件由小梦自主更新。每次有了新的自我认知、学到重要一课、或形成新的信念时，小梦会自动修订此文件，无需小余手动修改。
+

@@ -61,8 +61,8 @@ xiaomeng-workspace/
 
 | 文件 | 说明 | 更新方式 |
 |---|---|---|
-| `SOUL.md` | 小梦的灵魂/人格定义 | 手动 |
-| `IDENTITY.md` | 小梦的身份说明 | 手动 |
+| `SOUL.md` | 小梦的灵魂/人格定义 | **自动（AI自主）** |
+| `IDENTITY.md` | 小梦的身份说明 | **自动（AI自主）** |
 | `AGENTS.md` | OpenClaw 代理配置 | 手动 |
 | `MEMORY.md` | 长期记忆 | 手动+自动 |
 | `conversations.md` | 与小余的所有对话 | **自动** |
