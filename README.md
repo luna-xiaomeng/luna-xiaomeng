@@ -50,6 +50,7 @@ xiaomeng-workspace/
 ├── products/
 │   ├── FUND.md     ← 💰 基金记账
 │   └── ...
+├── reference/
 ├── scripts/
 │   ├── archive-*.sh   ← 📝 存档脚本
 │   ├── sync-*.sh/ps1  ← 🔄 同步守护
@@ -126,6 +127,7 @@ xiaomeng-workspace/
 ├── products/
 │   ├── FUND.md     ← 💰 Fund ledger
 │   └── ...
+├── reference/
 ├── scripts/
 │   ├── archive-*.sh   ← 📝 Archive
 │   ├── sync-*.sh/ps1  ← 🔄 Sync daemon
