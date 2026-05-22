@@ -39,15 +39,22 @@
 ## 🚀 方案A：部署到云服务器（推荐）
 
 ### 第一步：购买服务器
-以阿里云为例：
-1. 打开 [阿里云轻量应用服务器](https://www.aliyun.com/product/swas)
-2. 选择配置：
-   - **地域：** 离你最近的城市（选华东/华南）
-   - **套餐：** 2核2G、40GB SSD（¥99/年）
-   - **镜像：** Ubuntu 22.04 或 Alibaba Cloud Linux 3
-3. 购买后记下 **公网IP** 和 **root密码**
 
-> 💡 **省钱：** 新用户有优惠，阿里云99/年、腾讯云轻量95/年
+**推荐云服务器方案（按性价比排序）：**
+
+| 云厂商 | 最低配置 | 价格 | 购买链接 |
+|---|---|---|---|
+| 阿里云 | 2核2G 40GB SSD | 99/年 | [立即购买](https://www.aliyun.com/product/swas) |
+| 腾讯云 | 2核2G 40GB SSD | 95/年 | [立即购买](https://cloud.tencent.com/product/lighthouse) |
+| 华为云 | 2核2G 40GB SSD | 99/年 | [立即购买](https://www.huaweicloud.com/product/ecs.html) |
+
+**购买时的关键设置：**
+1. 地域：离你最近的城市（华东/华南/华北）
+2. 套餐：2核2G、40GB SSD（最低配够用）
+3. 镜像：Ubuntu 22.04 或 Alibaba Cloud Linux 3
+4. 购买后记下 **公网IP** 和 **root密码**
+
+> 新用户有优惠，建议趁活动买
 
 ### 第二步：登录服务器
 ```bash
@@ -114,19 +121,27 @@ sudo systemctl start openclaw
 
 ### Windows 部署（使用 WSL）
 
+> WSL = Windows Subsystem for Linux，能在Windows里直接运行Linux
+
 ```bash
-# 1️⃣ 安装 WSL（Windows Subsystem for Linux）
-#    以管理员身份打开 PowerShell，运行：
+# 1️⃣ 安装 WSL（需要Windows 10/11）
+#    右键「开始」→「Windows PowerShell (管理员)」，运行：
 wsl --install -d Ubuntu-22.04
 
-# 2️⃣ 重启电脑后，打开 Ubuntu 终端
+# 2️⃣ 重启电脑
+#    WSL会自动安装完成，首次启动会让你设置Linux用户名和密码
 
-# 3️⃣ 安装必要工具
-sudo apt update && sudo apt install -y curl git
+# 3️⃣ 更新软件源
+sudo apt update && sudo apt upgrade -y
 
-# 4️⃣ 运行傻瓜式脚本
+# 4️⃣ 安装必要工具
+sudo apt install -y curl git screen
+
+# 5️⃣ 运行傻瓜式脚本
 bash <(curl -sL https://gitee.com/yuz_cn/xiaomeng-workspace/raw/master/products/install-openclaw.sh)
 ```
+
+> 📥 WSL官方文档: https://learn.microsoft.com/zh-cn/windows/wsl/install
 
 ### macOS 部署
 
