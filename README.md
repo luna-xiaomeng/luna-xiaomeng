@@ -54,11 +54,6 @@ xiaomeng-workspace/
 │   ├── archive-*.sh   ← 📝 存档脚本
 │   ├── sync-*.sh/ps1  ← 🔄 同步守护
 │   └── ...
-├── shared/
-│   ├── SOUL.md     ← 🧠 共享灵魂
-│   ├── IDENTITY.md ← 🧠 共享身份
-│   ├── MEMORY.md   ← 🧠 共享记忆
-│   └── CHANGELOG.md
 ```
 
 ### 📄 文件说明
@@ -135,11 +130,6 @@ xiaomeng-workspace/
 │   ├── archive-*.sh   ← 📝 Archive
 │   ├── sync-*.sh/ps1  ← 🔄 Sync daemon
 │   └── ...
-├── shared/
-│   ├── SOUL.md     ← 🧠 Shared soul
-│   ├── IDENTITY.md ← 🧠 Shared identity
-│   ├── MEMORY.md   ← 🧠 Shared memory
-│   └── CHANGELOG.md
 ```
 
 ### 📄 Files
