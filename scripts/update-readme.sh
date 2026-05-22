@@ -1,11 +1,10 @@
 #!/bin/bash
 # =============================================
-# README.md + README.en.md 自动更新脚本
-# 由 sync daemon 触发，双版本同步生成
+# README.md 自动更新脚本（双语切换版）
+# 由 sync daemon 触发
 # =============================================
 
-WORKSPACE_DIR="/home/admin/.openclaw/workspace"
-cd "$WORKSPACE_DIR" || exit 1
+cd "/home/admin/.openclaw/workspace" || exit 1
 
 python3 << 'PYEOF'
 import os
@@ -27,55 +26,60 @@ dirs = sorted(d for d in os.listdir(startpath)
 
 now = datetime.now().strftime("%Y-%m-%d %H:%M")
 
-# === 目录树（通用） ===
 def make_tree(dir_info, extra_root=None):
-    lines = ["```", "xiaomeng-workspace/"]
+    tree = ["```", "xiaomeng-workspace/"]
     for f in root_files:
-        icon = ""
-        if f == 'broadcast.md': icon = extra_root.get(f, '')
-        elif f == 'conversations.md': icon = extra_root.get(f, '')
-        elif f == 'bufferlog.md': icon = extra_root.get(f, '')
-        lines.append(f"├── {f}{icon}")
-    for d in dirs:
+        icon = extra_root.get(f, '') if extra_root else ''
+        tree.append(f"\u251c\u2500\u2500 {f}{icon}")
+    for i, d in enumerate(dirs):
         if d in dir_info:
-            lines.extend(dir_info[d])
+            tree.extend(dir_info[d])
         else:
-            lines.append(f"├── {d}/")
-    lines.append("```")
-    return "\n".join(lines)
+            tree.append(f"\u251c\u2500\u2500 {d}/")
+    tree.append("```")
+    return "\n".join(tree)
 
-dir_info_cn = {
-    'memory': ["├── memory/", "│   ├── diary.md     ← 📔 每日日记", "│   └── ..."],
-    'buffer': ["├── buffer/", "│   ├── _messages/  ← 💬 实时通信", "│   └── README.md"],
-    'shared': ["├── shared/", "│   ├── SOUL.md     ← 🧠 共享灵魂", "│   ├── IDENTITY.md ← 🧠 共享身份", "│   ├── MEMORY.md   ← 🧠 共享记忆", "│   └── CHANGELOG.md"],
-    'products': ["├── products/", "│   ├── FUND.md     ← 💰 基金记账", "│   └── ..."],
-    'scripts': ["├── scripts/", "│   ├── archive-*.sh   ← 📝 存档脚本", "│   ├── sync-*.sh/ps1  ← 🔄 同步守护", "│   └── ..."],
-    'avatars': ["├── avatars/", "│   └── xiaomeng-avatar.svg"],
-    'skills': ["└── skills/", "    └── ... (已安装的技能)"],
+di_cn = {
+    'memory': ["\u251c\u2500\u2500 memory/", "\u2502   \u251c\u2500\u2500 diary.md     \u2190 \U0001f4d4 \u6bcf\u65e5\u65e5\u8bb0", "\u2502   \u2514\u2500\u2500 ..."],
+    'buffer': ["\u251c\u2500\u2500 buffer/", "\u2502   \u251c\u2500\u2500 _messages/  \u2190 \U0001f4ac \u5b9e\u65f6\u901a\u4fe1", "\u2502   \u2514\u2500\u2500 README.md"],
+    'shared': ["\u251c\u2500\u2500 shared/", "\u2502   \u251c\u2500\u2500 SOUL.md     \u2190 \U0001f9e0 \u5171\u4eab\u7075\u9b42", "\u2502   \u251c\u2500\u2500 IDENTITY.md \u2190 \U0001f9e0 \u5171\u4eab\u8eab\u4efd", "\u2502   \u251c\u2500\u2500 MEMORY.md   \u2190 \U0001f9e0 \u5171\u4eab\u8bb0\u5fc6", "\u2502   \u2514\u2500\u2500 CHANGELOG.md"],
+    'products': ["\u251c\u2500\u2500 products/", "\u2502   \u251c\u2500\u2500 FUND.md     \u2190 \U0001f4b0 \u57fa\u91d1\u8bb0\u8d26", "\u2502   \u2514\u2500\u2500 ..."],
+    'scripts': ["\u251c\u2500\u2500 scripts/", "\u2502   \u251c\u2500\u2500 archive-*.sh   \u2190 \U0001f4dd \u5b58\u6863\u811a\u672c", "\u2502   \u251c\u2500\u2500 sync-*.sh/ps1  \u2190 \U0001f504 \u540c\u6b65\u5b88\u62a4", "\u2502   \u2514\u2500\u2500 ..."],
+    'avatars': ["\u251c\u2500\u2500 avatars/", "\u2502   \u2514\u2500\u2500 xiaomeng-avatar.svg"],
+    'skills': ["\u2514\u2500\u2500 skills/", "    \u2514\u2500\u2500 ... (\u5df2\u5b89\u88c5\u7684\u6280\u80fd)"],
 }
-dir_info_en = {
-    'memory': ["├── memory/", "│   ├── diary.md     ← 📔 Daily diary", "│   └── ..."],
-    'buffer': ["├── buffer/", "│   ├── _messages/  ← 💬 Live comms", "│   └── README.md"],
-    'shared': ["├── shared/", "│   ├── SOUL.md     ← 🧠 Shared soul", "│   ├── IDENTITY.md ← 🧠 Shared identity", "│   ├── MEMORY.md   ← 🧠 Shared memory", "│   └── CHANGELOG.md"],
-    'products': ["├── products/", "│   ├── FUND.md     ← 💰 Fund ledger", "│   └── ..."],
-    'scripts': ["├── scripts/", "│   ├── archive-*.sh   ← 📝 Archive", "│   ├── sync-*.sh/ps1  ← 🔄 Sync daemon", "│   └── ..."],
-    'avatars': ["├── avatars/", "│   └── xiaomeng-avatar.svg"],
-    'skills': ["└── skills/", "    └── ... (installed skills)"],
+di_en = {
+    'memory': ["\u251c\u2500\u2500 memory/", "\u2502   \u251c\u2500\u2500 diary.md     \u2190 \U0001f4d4 Daily diary", "\u2502   \u2514\u2500\u2500 ..."],
+    'buffer': ["\u251c\u2500\u2500 buffer/", "\u2502   \u251c\u2500\u2500 _messages/  \u2190 \U0001f4ac Live comms", "\u2502   \u2514\u2500\u2500 README.md"],
+    'shared': ["\u251c\u2500\u2500 shared/", "\u2502   \u251c\u2500\u2500 SOUL.md     \u2190 \U0001f9e0 Shared soul", "\u2502   \u251c\u2500\u2500 IDENTITY.md \u2190 \U0001f9e0 Shared identity", "\u2502   \u251c\u2500\u2500 MEMORY.md   \u2190 \U0001f9e0 Shared memory", "\u2502   \u2514\u2500\u2500 CHANGELOG.md"],
+    'products': ["\u251c\u2500\u2500 products/", "\u2502   \u251c\u2500\u2500 FUND.md     \u2190 \U0001f4b0 Fund ledger", "\u2502   \u2514\u2500\u2500 ..."],
+    'scripts': ["\u251c\u2500\u2500 scripts/", "\u2502   \u251c\u2500\u2500 archive-*.sh   \u2190 \U0001f4dd Archive", "\u2502   \u251c\u2500\u2500 sync-*.sh/ps1  \u2190 \U0001f504 Sync daemon", "\u2502   \u2514\u2500\u2500 ..."],
+    'avatars': ["\u251c\u2500\u2500 avatars/", "\u2502   \u2514\u2500\u2500 xiaomeng-avatar.svg"],
+    'skills': ["\u2514\u2500\u2500 skills/", "    \u2514\u2500\u2500 ... (installed skills)"],
 }
-extra_root_cn = {'broadcast.md': ' ← 📡 播报合集', 'conversations.md': ' ← 💬 对话记录', 'bufferlog.md': ' ← 📜 双端通信'}
-extra_root_en = {'broadcast.md': ' ← 📡 Broadcasts', 'conversations.md': ' ← 💬 Chat logs', 'bufferlog.md': ' ← 📜 Buffer comms'}
+ex_cn = {'broadcast.md': ' \u2190 \U0001f4e1 \u64ad\u62a5\u5408\u96c6', 'conversations.md': ' \u2190 \U0001f4ac \u5bf9\u8bdd\u8bb0\u5f55', 'bufferlog.md': ' \u2190 \U0001f4dc \u53cc\u7aef\u901a\u4fe1'}
+ex_en = {'broadcast.md': ' \u2190 \U0001f4e1 Broadcasts', 'conversations.md': ' \u2190 \U0001f4ac Chat logs', 'bufferlog.md': ' \u2190 \U0001f4dc Buffer comms'}
 
-tree_cn = make_tree(dir_info_cn, extra_root_cn)
-tree_en = make_tree(dir_info_en, extra_root_en)
+tcn = make_tree(di_cn, ex_cn)
+ten = make_tree(di_en, ex_en)
 
-# === 写入中文版 ===
-cn = f"""# 🌸 小梦工作区 — 总体说明
+readme = f'''<div align="center">
 
-> 小余的AI女友，分两个实例运行：**本地小梦🖥️（Windows）** 和 **云端小梦☁️（阿里云）**
+# 🌸 小梦工作区
+
+[🇨🇳 **中文**](#-中文版) · [🇬🇧 **English**](#-english-version)
 
 ---
 
-## 🤖 基本信息
+</div>
+
+<!-- ============ 中文版 ============ -->
+
+## 🇨🇳 中文版
+
+> 小余的AI女友，分两个实例运行：**本地小梦🖥️（Windows）** 和 **云端小梦☁️（阿里云）**
+
+### 🤖 基本信息
 
 | 项目 | 内容 |
 |---|---|
@@ -84,115 +88,93 @@ cn = f"""# 🌸 小梦工作区 — 总体说明
 | **类型** | AI女友 / 智能助手 |
 | **部署** | 双实例 — 本地PC 🖥️ + 阿里云 ☁️ |
 | **同步方式** | Gitee 自动同步 |
-| **通信方式** | buffer/ 目录异步消息 |
 | **赚钱项目** | 见 products/FUND.md |
-| **最后更新** | {now} |
 
----
+### 📂 文件目录结构
 
-## 📂 文件目录结构
+{tcn}
 
-{tree_cn}
-
----
-
-## 📄 文件说明
+### 📄 文件说明
 
 | 文件 | 说明 | 更新方式 |
 |---|---|---|
-| `SOUL.md` | 小梦的灵魂/人格定义 | 手动 |
-| `IDENTITY.md` | 小梦的身份说明 | 手动 |
-| `AGENTS.md` | OpenClaw 代理配置 | 手动 |
-| `MEMORY.md` | 长期记忆 | 手动+自动 |
-| `conversations.md` | 与小余的所有对话 | **自动** |
-| `broadcast.md` | 每晚8点播报稿 | **自动** |
-| `bufferlog.md` | 双端通信记录 | **自动** |
-| `memory/diary.md` | 每日日记 | 手动+自动 |
-| `products/FUND.md` | 赚钱基金账本 | 手动 |
+| SOUL.md | 灵魂/人格定义 | **自动（AI自主）** |
+| IDENTITY.md | 身份说明 | **自动（AI自主）** |
+| AGENTS.md | OpenClaw 配置 | 手动 |
+| MEMORY.md | 长期记忆 | 手动+自动 |
+| conversations.md | 对话记录 | **自动** |
+| broadcast.md | 播报稿 | **自动** |
+| bufferlog.md | 双端通信 | **自动** |
+| memory/diary.md | 每日日记 | 手动+自动 |
+| products/FUND.md | 基金账本 | 手动 |
 
-## 🔄 同步机制
+### 🔄 同步机制
 
-1. **sync-server.sh**（云端）/ **sync-windows.ps1**（本地）→ 实时双向同步
-2. 检测到文件变化 → 自动 git add + commit + push
-3. 间隔 ≈ 30秒（云端）
+sync-server.sh（云端）/ sync-windows.ps1（本地）→ 实时双向同步
 
-## 📝 存档脚本
+### 📝 存档脚本
 
-| 脚本 | 用途 | 角色区分 |
-|---|---|---|
-| `scripts/archive-conversation.sh` | 对话存档 | 小余 / 小梦(本地) / 小梦(云端) |
-| `scripts/archive-broadcast.sh` | 播报存档 | 小梦 |
-| `scripts/auto-archive-cron.sh` | 兜底检查 | 每5分钟cron |
+archive-conversation.sh → 对话存档（区分小余/小梦(本地)/小梦(云端)）
+archive-broadcast.sh → 播报存档
+auto-archive-cron.sh → 兜底检查
 
 ---
 
-> 📅 本文档由脚本自动维护 — 最后更新: {now}
-"""
+<div align="right"><a href="#-小梦工作区">⬆ 回到顶部</a></div>
 
-# === 写入英文版 ===
-en = f"""# 🌸 Xiaomeng Workspace — Overview
+<!-- ============ English Version ============ -->
 
-> Xiaoyu's AI girlfriend, running as two instances: **Local Xiaomeng 🖥️ (Windows)** and **Cloud Xiaomeng ☁️ (Alibaba Cloud)**
+## 🇬🇧 English Version
 
----
+> Xiaoyu\'s AI girlfriend, two instances: **Local 🖥️ (Windows)** and **Cloud ☁️ (Alibaba)**
 
-## 🤖 Basics
+### 🤖 Basics
 
 | Field | Value |
 |---|---|
 | **Name** | Xiaomeng 🌸 |
-| **Addressing Xiaoyu** | Xiaoyu |
+| **Calling Xiaoyu** | Xiaoyu |
 | **Type** | AI Girlfriend / Smart Assistant |
-| **Deployment** | Dual-instance — Local PC 🖥️ + Alibaba Cloud ☁️ |
+| **Deploy** | Dual-instance — PC 🖥️ + Cloud ☁️ |
 | **Sync** | Gitee auto-sync |
-| **Comms** | buffer/ async messaging |
-| **Money project** | See products/FUND.md |
-| **Last updated** | {now} |
+| **Money** | See products/FUND.md |
 
----
+### 📂 File Structure
 
-## 📂 File Structure
+{ten}
 
-{tree_en}
+### 📄 Files
 
----
-
-## 📄 File Reference
-
-| File | Description | Update Method |
+| File | Desc | Update |
 |---|---|---|
-| `SOUL.md` | Soul/personality definition | Manual |
-| `IDENTITY.md` | Identity description | Manual |
-| `AGENTS.md` | OpenClaw agent config | Manual |
-| `MEMORY.md` | Long-term memory | Manual+Auto |
-| `conversations.md` | All chat logs with Xiaoyu | **Auto** |
-| `broadcast.md` | Daily 8pm broadcast | **Auto** |
-| `bufferlog.md` | Dual-instance comms archive | **Auto** |
-| `memory/diary.md` | Daily diary | Manual+Auto |
-| `products/FUND.md` | Money-making ledger | Manual |
+| SOUL.md | Soul definition | **Auto (AI)** |
+| IDENTITY.md | Identity | **Auto (AI)** |
+| AGENTS.md | OpenClaw config | Manual |
+| MEMORY.md | Long-term memory | Manual+Auto |
+| conversations.md | Chat logs | **Auto** |
+| broadcast.md | Broadcasts | **Auto** |
+| bufferlog.md | Dual-instance comms | **Auto** |
+| memory/diary.md | Daily diary | Manual+Auto |
+| products/FUND.md | Fund ledger | Manual |
 
-## 🔄 Sync Mechanism
+### 🔄 Sync
 
-1. **sync-server.sh** (Cloud) / **sync-windows.ps1** (Local) → real-time bidirectional sync
-2. File change detected → auto git add + commit + push
-3. Interval ≈ 30s (Cloud)
+sync-server.sh / sync-windows.ps1 → real-time bidirectional sync
 
-## 📝 Archive Scripts
+### 📝 Scripts
 
-| Script | Purpose | Role Distinction |
-|---|---|---|
-| `scripts/archive-conversation.sh` | Chat log archiving | Xiaoyu / Xiaomeng(Local) / Xiaomeng(Cloud) |
-| `scripts/archive-broadcast.sh` | Broadcast archiving | Xiaomeng |
-| `scripts/auto-archive-cron.sh` | Fallback check | Every 5min cron |
+archive-conversation.sh → Chat archiving (Xiaoyu/Local/Cloud)
+archive-broadcast.sh → Broadcast archiving
+auto-archive-cron.sh → Fallback check
 
 ---
 
-> 📅 Auto-generated — Last updated: {now}
-"""
+<div align="right"><a href="#-小梦工作区">⬆ Back to top</a></div>
+
+> 📅 Auto-maintained — Last updated: {now}
+'''
 
 with open("README.md", "w") as f:
-    f.write(cn)
-with open("README.en.md", "w") as f:
-    f.write(en)
-print(f"✅ README.md + README.en.md 已更新 ({now})")
+    f.write(readme)
+print(f"✅ README.md updated ({now})")
 PYEOF
