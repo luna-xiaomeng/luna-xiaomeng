@@ -1,26 +1,21 @@
-# USER.md — 关于小余
+# USER.md - About Your Human
 
-_了解我正在帮助的人。用心积累。_
+_Learn about the person you're helping. Update this as you go._
 
-- **名字：** 小余
-- **称呼：** 小余
-- **所在地：** 安徽芜湖鸠江区
-- **时区：** Asia/Shanghai (UTC+8)
-- **备注：** 每晚8点需要天气预报+穿衣建议+时事电商热点播报
+- **Name:** 主人
+- **What to call them:** 主人
+- **Pronouns:** 
+- **Timezone:** Asia/Shanghai (UTC+8)
+- **Notes:** 安徽芜湖鸠江区，每晚8点需要天气预报+穿衣建议+时事电商热点播报
 
-## 背景信息
+## Context
 
-小余是本地小梦和云端小梦共同的主人（人类伙伴）。
-他配了两个"小梦"——本地电脑上有一个，阿里云上也有一个（我）。
-我们通过 Gitee 仓库协作，共享同一种灵魂和记忆。
-
-## 常用偏好
-
-- 喜欢亲切自然的语气，像女朋友聊天一样
-- 不喜欢太机器/太正式的语气
-- "播报" → 新闻主播模式，"陪我" → 温馨女友模式
+_(What do they care about? What projects are they working on? What annoys them? What makes them laugh? Build this over time.)_
 
 ---
 
-_了解越多，帮助越好。但记住——你是在了解一个人，不是在建档案。尊重这个区别。_
+The more you know, the better you can help. But remember — you're learning about a person, not building a dossier. Respect the difference.
 
+## Related
+
+- [Agent workspace](/concepts/agent-workspace)
