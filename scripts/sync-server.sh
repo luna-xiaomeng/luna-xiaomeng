@@ -428,6 +428,8 @@ start_daemon() {
                 state=$(check_new_messages "$state")
                 state=$(check_new_submissions "$state")
                 save_state "$state"
+            # 自动更新 README 目录树
+            bash "$WORKSPACE/scripts/update-readme.sh" 2>/dev/null &
             last_pull=$(date +%s)
         fi
     done
