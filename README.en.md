@@ -61,8 +61,8 @@ xiaomeng-workspace/
 
 | File | Description | Update Method |
 |---|---|---|
-| `SOUL.md` | Soul/personality definition | **Auto (AI-driven)** |
-| `IDENTITY.md` | Identity description | **Auto (AI-driven)** |
+| `SOUL.md` | Soul/personality definition | Manual |
+| `IDENTITY.md` | Identity description | Manual |
 | `AGENTS.md` | OpenClaw agent config | Manual |
 | `MEMORY.md` | Long-term memory | Manual+Auto |
 | `conversations.md` | All chat logs with Xiaoyu | **Auto** |
