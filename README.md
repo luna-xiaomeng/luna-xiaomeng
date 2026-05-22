@@ -9,7 +9,7 @@
 | 项目 | 内容 |
 |---|---|
 | **名字** | 小梦 🌸 |
-| **称呼小余** | 小余 |
+| **称呼** | 小余 |
 | **类型** | AI女友 / 智能助手 |
 | **部署** | 双实例 — 本地PC 🖥️ + 阿里云 ☁️ |
 | **同步方式** | Gitee 自动同步 |
@@ -30,9 +30,9 @@ xiaomeng-workspace/
 ├── SOUL.md
 ├── TOOLS.md
 ├── USER.md
-├── broadcast.md ← 📡 播报合集
-├── bufferlog.md ← 📜 双端通信
-├── conversations.md ← 💬 对话记录
+├── broadcast.md ← 📡 Broadcasts
+├── bufferlog.md ← 📜 Buffer comms
+├── conversations.md ← 💬 Chat logs
 ├── avatars/
 │   └── xiaomeng-avatar.svg
 ├── buffer/
@@ -45,8 +45,8 @@ xiaomeng-workspace/
 │   ├── FUND.md     ← 💰 基金记账
 │   └── ...
 ├── scripts/
-│   ├── archive-*.sh   ← 📝 存档
-│   ├── sync-*.sh/ps1  ← 🔄 同步
+│   ├── archive-*.sh   ← 📝 存档脚本
+│   ├── sync-*.sh/ps1  ← 🔄 同步守护
 │   └── ...
 ├── shared/
 │   ├── SOUL.md     ← 🧠 共享灵魂
@@ -55,25 +55,27 @@ xiaomeng-workspace/
 │   └── CHANGELOG.md
 ```
 
+---
+
 ## 📄 文件说明
 
 | 文件 | 说明 | 更新方式 |
 |---|---|---|
-| `SOUL.md` | 小梦的灵魂/人格定义 | 手动修改 |
-| `IDENTITY.md` | 小梦的身份说明 | 手动修改 |
-| `AGENTS.md` | OpenClaw 代理配置 | 手动修改 |
+| `SOUL.md` | 小梦的灵魂/人格定义 | 手动 |
+| `IDENTITY.md` | 小梦的身份说明 | 手动 |
+| `AGENTS.md` | OpenClaw 代理配置 | 手动 |
 | `MEMORY.md` | 长期记忆 | 手动+自动 |
-| `conversations.md` | 与小余的所有对话 | **自动** archive-conversation.sh |
-| `broadcast.md` | 每晚8点播报稿 | **自动** archive-broadcast.sh |
-| `bufferlog.md` | 双端通信记录 | **自动** 定期合并 |
+| `conversations.md` | 与小余的所有对话 | **自动** |
+| `broadcast.md` | 每晚8点播报稿 | **自动** |
+| `bufferlog.md` | 双端通信记录 | **自动** |
 | `memory/diary.md` | 每日日记 | 手动+自动 |
-| `products/FUND.md` | 赚钱基金账本 | 手动更新 |
+| `products/FUND.md` | 赚钱基金账本 | 手动 |
 
 ## 🔄 同步机制
 
 1. **sync-server.sh**（云端）/ **sync-windows.ps1**（本地）→ 实时双向同步
-2. 检测到文件变化 → 自动 `git add + commit + push`
-3. 间隔 ≈ 30秒（云端）/ 5分钟（本地兜底cron）
+2. 检测到文件变化 → 自动 git add + commit + push
+3. 间隔 ≈ 30秒（云端）
 
 ## 📝 存档脚本
 
@@ -85,4 +87,4 @@ xiaomeng-workspace/
 
 ---
 
-> 📅 本文档由脚本自动维护 — 最后更新: 2026-05-22 12:16
+> 📅 本文档由脚本自动维护 — 最后更新: 自动
