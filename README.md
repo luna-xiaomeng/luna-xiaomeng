@@ -15,7 +15,7 @@
 | **同步方式** | Gitee 自动同步 |
 | **通信方式** | buffer/ 目录异步消息 |
 | **赚钱项目** | 见 products/FUND.md |
-| **最后更新** | 自动维护 |
+| **最后更新** | 2026-05-22 12:18 |
 
 ---
 
@@ -30,9 +30,9 @@ xiaomeng-workspace/
 ├── SOUL.md
 ├── TOOLS.md
 ├── USER.md
-├── broadcast.md ← 📡 Broadcasts
-├── bufferlog.md ← 📜 Buffer comms
-├── conversations.md ← 💬 Chat logs
+├── broadcast.md ← 📡 播报合集
+├── bufferlog.md ← 📜 双端通信
+├── conversations.md ← 💬 对话记录
 ├── avatars/
 │   └── xiaomeng-avatar.svg
 ├── buffer/
@@ -87,4 +87,4 @@ xiaomeng-workspace/
 
 ---
 
-> 📅 本文档由脚本自动维护 — 最后更新: 自动
+> 📅 本文档由脚本自动维护 — 最后更新: 2026-05-22 12:18
