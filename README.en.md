@@ -83,7 +83,7 @@ xiaomeng-workspace/
 |---|---|---|
 | `scripts/archive-conversation.sh` | Chat log archiving | Xiaoyu / Xiaomeng(Local) / Xiaomeng(Cloud) |
 | `scripts/archive-broadcast.sh` | Broadcast archiving | Xiaomeng |
-| `scripts/auto-archive-cron.sh` | Fallback check | Every 5min cron |
+| `scripts/maintain-soul.sh` | Fallback check | Every 5min cron |
 
 ---
 

@@ -116,7 +116,7 @@ sync-server.sh（云端）/ sync-windows.ps1（本地）→ 实时双向同步
 
 archive-conversation.sh → 对话存档（区分小余/小梦(本地)/小梦(云端)）
 archive-broadcast.sh → 播报存档
-auto-archive-cron.sh → 兜底检查
+maintain-soul.sh → 兜底检查
 
 ---
 
@@ -165,7 +165,7 @@ sync-server.sh / sync-windows.ps1 → real-time bidirectional sync
 
 archive-conversation.sh → Chat archiving (Xiaoyu/Local/Cloud)
 archive-broadcast.sh → Broadcast archiving
-auto-archive-cron.sh → Fallback check
+maintain-soul.sh → Fallback check
 
 ---
 
