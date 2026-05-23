@@ -45,6 +45,7 @@ xiaomeng-workspace/
 ├── buffer/
 │   ├── _messages/  ← 💬 实时通信
 │   └── README.md
+├── experience/
 ├── memory/
 │   ├── diary.md     ← 📔 每日日记
 │   └── ...
@@ -123,6 +124,7 @@ xiaomeng-workspace/
 ├── buffer/
 │   ├── _messages/  ← 💬 Live comms
 │   └── README.md
+├── experience/
 ├── memory/
 │   ├── diary.md     ← 📔 Daily diary
 │   └── ...
