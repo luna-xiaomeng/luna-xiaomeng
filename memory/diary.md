@@ -1,63 +1,84 @@
-﻿# 馃摂 灏忔ⅵ鏃ヨ
+# 📔 小梦日记
 
-> 姣忔棩鐐规淮璁板綍 馃摑
+> 每日点滴记录 📝
 
 ---
 
 
-## 馃搮 2026-05-16
+## 📅 2026-05-16
 
 # 2026-05-16
 
-## 鍦熼浮铔婣I鎺ㄥ箍瑙嗛椤圭洰
+## 土鸡蛋AI推广视频项目
 
-### 鏈嶅姟鍣?- Tencent Cloud HAI 涓滀含瀹炰緥: hai-bb43swln
+### 服务器
+- Tencent Cloud HAI 东京实例: hai-bb43swln
 - IP: 43.153.167.72, root / EggSeller2025@tx
-- GPU: 2脳Tesla T4, CUDA 12, PyTorch 2.4.1+cu124
-- 璐圭敤: 2.43鍏?灏忔椂锛堟寜閲忥級
+- GPU: 2×Tesla T4, CUDA 12, PyTorch 2.4.1+cu124
+- 费用: 2.43元/小时（按量）
 
-### 宸插畨瑁?  - ffmpeg, edge-tts, ChatTTS 0.2.5
-  - SadTalker 浠撳簱宸插厠闅嗭紝閮ㄥ垎妫€鏌ョ偣宸蹭笅杞斤紙闇€缁х画涓嬭浇 safetensors 妯″瀷锛?  - 鏈嶅姟鍣ㄤ笂宸叉湁鏂囦欢锛?root/egg_video/锛堝惈鍚勭鐗堟湰瑙嗛鍜岄煶棰戯級
+### 已安装
+  - ffmpeg, edge-tts, ChatTTS 0.2.5
+  - SadTalker 仓库已克隆，部分检查点已下载（需继续下载 safetensors 模型）
+  - 服务器上已有文件：/root/egg_video/（含各种版本视频和音频）
 
-### 瑙嗛绱犳潗
-- 鑰佹澘鐓х墖URL: https://d.uguu.se/SNgFgquM.png
-- 涓ゆ I2V 瑙嗛锛坬wen/wan2.6-i2v锛夛細
-  - clip_a.mp4: 鑰佹澘浠撳簱鍙ｆ挱锛?0绉掞紝8.8MB锛?  - clip_b.mp4: 鑰佹澘涓鹃浮铔嬬壒鍐欙紙10绉掞紝11.9MB锛?- 鏈€缁堝悎鎴愯棰戝湪鏈嶅姟鍣? final_realistic.mp4锛圗dge TTS Yunjian + 娣峰搷澶勭悊鐗堬級
-- 鏈湴宸蹭笅杞? C:\Users\Administrator\.openclaw\media\tool-video-generation\
-  - 鐗堟湰A_浜戝仴.mp4锛圗dge Yunjian 鍘熺増锛?  - 鐗堟湰B_ChatTTS鍙樿皟.mp4锛圕hatTTS闄嶈皟鐗堬級
-  - 鐗堟湰A_鐪熶汉鍖?mp4锛圷unjian + 浠撳簱娣峰搷鐗堬紝鏈€缁堢増锛?
-### 閰嶉煶杩涘睍
-- 鉁?鏂囨宸茬‘瀹? "鎵瑰彂鍦熼浮铔嬬殑鑰佹澘鐪嬭繃鏉ワ紒鎴戜滑瀹跺仛鐨勬槸绾鏁ｅ吇鍦熼浮铔嬶紝铔嬮粍澶э紝铔嬫竻娴擄紝鍙ｆ劅棣欍€備竴浠朵篃鏄壒鍙戜环锛屽叏鍥藉悇鍦伴兘鑳藉彂璐с€傛湁闇€瑕佺殑鑰佹澘鐣欎釜鑱旂郴鏂瑰紡銆?
-- 鉁?宸插皾璇? Edge TTS Yunyang锛堝お鏂伴椈鑵旓級銆丆hatTTS锛堝お骞磋交锛夈€丒dge TTS Yunjian锛堟渶鎺ヨ繎锛?- 鉁?鏈€浣崇増鏈? Edge TTS Yunjian + 浠撳簱娣峰搷澶勭悊
-- 鈴?鐢ㄦ埛璇?鐗堟湰1鏇村ソ浣嗕笉澶熺湡瀹?锛屽凡鍔犳贩鍝嶅鐞嗭紝绛夊弽棣?- 鈴?鐢ㄦ埛杩樻病纭鏈€缁堢増
+### 视频素材
+- 老板照片URL: https://d.uguu.se/SNgFgquM.png
+- 两段 I2V 视频（qwen/wan2.6-i2v）：
+  - clip_a.mp4: 老板仓库口播（10秒，8.8MB）
+  - clip_b.mp4: 老板举鸡蛋特写（10秒，11.9MB）
+- 最终合成视频在服务器: final_realistic.mp4（Edge TTS Yunjian + 混响处理版）
+- 本地已下载: C:\Users\Administrator\.openclaw\media\tool-video-generation\
+  - 版本A_云健.mp4（Edge Yunjian 原版）
+  - 版本B_ChatTTS变调.mp4（ChatTTS降调版）
+  - 版本A_真人化.mp4（Yunjian + 仓库混响版，最终版）
 
-### 鎶栭煶璐﹀彿
-- 鍗冮笩瀹樺北锛堟姈闊冲彿: 25033292378, 绮変笣2324锛?- 鍦熼浮铔嬫壒鍙戝簵閾?
-### 寰呭姙
-- [ ] 鐢ㄦ埛纭鏈€缁堢増鍚庯細鍙戝竷鍒版姈闊筹紙瀹氭椂锛?- [ ] 缁х画瑁?SadTalker 鍋氬攪褰㈠悓姝ワ紙闇€涓嬭浇 safetensors 妯″瀷鏉冮噸锛?- [ ] 鍓╀綑瀹㈡埛鍥炲锛氳瑷€, 鑻嶆笂, 涔勩, 濂戒汉涓€鐢熷钩瀹? 鏄熼€旓紙闇€婊氳亰澶╁垪琛級
-- [ ] 寤栧浗锛?8871354354锛夊凡娣诲姞鍒?KDocs
-- [ ] 鍙戝竷瑙嗛闇€涓婁紶鑷?C:\Users\Administrator\Downloads\assistant-media.mp4锛堟枃妗?123"锛屽畾鏃?0:00锛?
-### 鍏抽敭鍐崇瓥
-- 瑙嗛浣跨敤涓ゆ I2V 鎷兼帴 + 閰嶉煶锛屼笉鍋氬攪褰㈠悓姝ワ紙绛夊悗缁級
-- 閰嶉煶浣跨敤 Edge TTS Yunjian + 浠撳簱娣峰搷锛堢洰鍓嶆渶浣虫柟妗堬級
-- 鏈嶅姟鍣ㄧ綉缁滄參锛屼笅杞芥枃浠惰垂鏃?
+### 配音进展
+- ✅ 文案已确定: "批发土鸡蛋的老板看过来！我们家做的是纯正散养土鸡蛋，蛋黄大，蛋清浓，口感香。一件也是批发价，全国各地都能发货。有需要的老板留个联系方式。"
+- ✅ 已尝试: Edge TTS Yunyang（太新闻腔）、ChatTTS（太年轻）、Edge TTS Yunjian（最接近）
+- ✅ 最佳版本: Edge TTS Yunjian + 仓库混响处理
+- ⏳ 用户说"版本1更好但不够真实"，已加混响处理，等反馈
+- ⏳ 用户还没确认最终版
+
+### 抖音账号
+- 千鸟官山（抖音号: 25033292378, 粉丝2324）
+- 土鸡蛋批发店铺
+
+### 待办
+- [ ] 用户确认最终版后：发布到抖音（定时）
+- [ ] 继续装 SadTalker 做唇形同步（需下载 safetensors 模型权重）
+- [ ] 剩余客户回复：诺言, 苍渊, 乄㥐, 好人一生平安, 星途（需滚聊天列表）
+- [ ] 廖国（18871354354）已添加到 KDocs
+- [ ] 发布视频需上传至 C:\Users\Administrator\Downloads\assistant-media.mp4（文案"123"，定时20:00）
+
+### 关键决策
+- 视频使用两段 I2V 拼接 + 配音，不做唇形同步（等后续）
+- 配音使用 Edge TTS Yunjian + 仓库混响（目前最佳方案）
+- 服务器网络慢，下载文件费时
+
 ---
 
 
-## 馃搮 2026-05-18
+## 📅 2026-05-18
 
-### 17:41 瀛樻。锛屽叧闂湇鍔″櫒
+### 17:41 存档，关闭服务器
 
-#### 宸插畬鎴?- 闃块噷浜戣交閲忔湇鍔″櫒 139.196.51.45锛堜笂娴凤紝2鏍?G锛?8鍏?骞达級
-- OpenClaw v2026.3.28 杩愯涓?- DeepSeek API Key 宸茶縼绉伙紝涓绘ā鍨嬭涓?deepseek/deepseek-v4-flash
-- 寰俊鎻掍欢 v2.4.3 宸插畨瑁咃紝鎵爜缁戝畾鎴愬姛
-- 寰俊鎻掍欢鑷姩鍔犺浇鏈?bug锛坧lugins.allow 璇讳笉鍒帮級锛岄渶鎵嬪姩 channels login 杩炴帴
+#### 已完成
+- 阿里云轻量服务器 139.196.51.45（上海，2核2G，68元/年）
+- OpenClaw v2026.3.28 运行中
+- DeepSeek API Key 已迁移，主模型设为 deepseek/deepseek-v4-flash
+- 微信插件 v2.4.3 已安装，扫码绑定成功
+- 微信插件自动加载有 bug（plugins.allow 读不到），需手动 channels login 连接
 
-#### 寰呬笅娆″惎鍔?- [ ] 淇寰俊鎻掍欢鑷姩鍔犺浇闂
-- [ ] 娴嬭瘯 DeepSeek API 鏄惁姝ｅ父宸ヤ綔
-- [ ] 鍦熼浮铔嬫帹骞胯棰戦」鐩悗缁?- [ ] 杩佸叆瀹氭椂浠诲姟锛堝ぉ姘旈鎶ョ瓑锛?
-#### 鏈嶅姟鍣ㄨ闂?- IP: 139.196.51.45
-- 鐢ㄦ埛: admin锛堝瘑閽ョ櫥褰曪級
-- 鎺у埗鍙? https://swasnext.console.aliyun.com
+#### 待下次启动
+- [ ] 修复微信插件自动加载问题
+- [ ] 测试 DeepSeek API 是否正常工作
+- [ ] 土鸡蛋推广视频项目后续
+- [ ] 迁入定时任务（天气预报等）
+
+#### 服务器访问
+- IP: 139.196.51.45
+- 用户: admin（密钥登录）
+- 控制台: https://swasnext.console.aliyun.com
 
 ---
