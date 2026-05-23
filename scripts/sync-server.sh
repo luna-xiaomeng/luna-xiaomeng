@@ -461,6 +461,8 @@ start_daemon() {
 
     # 首次同步
     info "[INIT] 首次同步..."
+    fix_file_permissions
+    clean_logs
     sync_git
     local state=$(get_state)
     state=$(check_new_messages "$state")
