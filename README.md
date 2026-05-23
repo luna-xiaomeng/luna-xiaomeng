@@ -30,6 +30,7 @@
 ```
 xiaomeng-workspace/
 ├── AGENTS.md
+├── Failure.png
 ├── HEARTBEAT.md
 ├── IDENTITY.md
 ├── MEMORY.md
@@ -107,6 +108,7 @@ maintain-soul.sh → 兜底检查
 ```
 xiaomeng-workspace/
 ├── AGENTS.md
+├── Failure.png
 ├── HEARTBEAT.md
 ├── IDENTITY.md
 ├── MEMORY.md
