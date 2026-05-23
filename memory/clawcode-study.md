@@ -1,66 +1,62 @@
 # ClawCode 学习笔记 📚
 
-> 学习时间：2026-05-23 19:19 ~ 19:37
+> 学习时间：2026-05-23 19:19 ~（持续更新）
 
 ## 项目概览
 
-- **GitHub:** `github.com/deepelementlab/clawcode`（原 `instructkr/claw-code`）
-- **本质：** Claude Code 的**干净室重写（Clean-room）**开源版
-- **起因：** 2026.3.31 Claude Code 51万行 TypeScript 源码意外泄露，韩国开发者 Sigrid Jin（instructkr）为规避版权风险，从零重写
-- **战绩：** 2小时破5万星 → 24小时超10万星 → GitHub 史上增速第一
-- **名字含义：** "Craftsman's claw" — 工匠之爪，精准、持久
+- **GitHub:** `github.com/deepelementlab/clawcode`
+- **团队：** DeepElementLab（原 instructkr/claw-code 改名而来）
+- **本质：** Claude Code 的**干净室重写（Clean-room）**开源版 → 现已发展为独立的 AI 编程代理平台
+- **起因：** 2026.3.31 Claude Code 51万行 TypeScript 源码意外泄露，韩国开发者 Sigrid Jin（instructkr）从零重写
+- **战绩：** 2小时破5万星 → 24小时超10万星 → **167.4K+ ⭐**，GitHub 史上增速第一
+- **名字含义：** "Craftsman's claw" — 工匠之爪
+- **许可证：** GPL-3.0
 
-## 核心定位
+## 设计哲学（四原则）
 
-- ✅ **不是** Claude Code 的副本，是**独立开发的兼容实现**
-- ✅ **模型无关** — 支持 Claude、OpenAI、Gemini、通义千问、本地LLM
-- ✅ **双语言：** Python（稳定版）→ Rust（高性能主力）
-- ✅ **MIT 协议**，完全开源可商用
+1. **执行 > 建议** — AI 应该动手做事
+2. **编排 > 独白** — 多角色协作 > 单Agent
+3. **学习 > 无状态** — 三层经验模型：Instinct → ECAP → TECAP
+4. **平台 > 锁定** — 不绑定模型厂商
 
-## 核心架构
+## 记忆系统（小余说七层）
 
-### Python 版
-```
-claw-code/
-├── src/main.py        # CLI入口、REPL交互
-├── src/models.py      # 数据模型
-├── src/commands.py    # 斜杠命令系统
-├── src/tools.py       # 工具系统（40+内置工具）
-├── src/query_engine.py # 查询引擎
-├── src/task.py        # 任务调度
-├── src/cost_tracker.py # Token消耗统计
-```
+**官方三层经验模型：**
+1. **Instinct（本能）** — 从观察中提取的可复用规则
+2. **ECAP（经验胶囊）** — Experience Capsule，带上下文和结果的结构化知识
+3. **TECAP（团队经验胶囊）** — Team ECAP，跨角色协作经验
 
-### Rust 版（9个Crate）
-```
-api-client/     → 模型适配
-runtime/        → 核心运行时、MCP编排
-tools/          → 工具框架
-commands/       → 命令系统
-plugins/        → 插件机制
-compat-harness/ → 编辑器集成
-claw-cli/       → 交互式REPL
-server/         → HTTP服务
-lsp/            → LSP协议支持
-```
+**四种经验维度：** model_experience / agent_experience / skill_experience / team_experience
+
+**可能完整的七层（小余提示）：** 短期会话记忆 → 项目记忆 → 用户偏好 → Instinct → ECAP → Skill → TECAP
 
 ## 核心功能
 
-1. **全栈工具集成：** 40+权限控制的内置工具（文件、系统、Git、Web搜索等）
-2. **多智能体协同：** Swarm模式，多Agent并行协作
-3. **模型无关LLM适配层：** 统一Provider抽象，运行中可切换模型
-4. **七层记忆体系：** 小余说是七层记忆，不只三层
-5. **插件化架构：** 工具插件、命令插件、运行时插件
-6. **安全权限沙盒：** 敏感操作需用户授权，完整审计日志
+### 终端原生 Agent
+- `clawcode` TUI 交互模式 / `clawcode -p "指令"` 非交互模式
+- 内置工具：文件操作、Shell、浏览器、子Agent、MCP
 
-## 应用场景
+### 虚拟研发团队（/clawteam）
+- 多角色并行（架构/实现/QA/交付）
+- 深度循环：收敛检测、TECAP回写、回滚决策
 
-- 🔧 个人AI编程超级助手
-- 👥 团队协同开发管理
-- 🤖 运维自动化（Shell、日志、监控）
-- 🔬 AI Agent 研究参考
-- 🔒 本地离线隐私部署
+### 设计系统（/designteam + /ui-style）
+- 内置 **54个品牌设计系统**（Apple, Google, Stripe, Notion等）
 
-## 与小梦我的关系
+### 研究子系统（Research & ResearchTeam）
+- 6种工作流：deepresearch, peerreview, lit, audit, compare, teamresearch
+- 多角色并行研究、合并策略
 
-ClawCode 是一个 AI 编程代理框架，类似于 OpenClaw 的 Codex 插件。它和我（小梦）不一样——我是面向用户交互的个人AI助理，ClawCode 是面向开发者的AI编程Agent。但**核心思想相通**：都是AI Agent，都涉及工具编排、多轮对话、任务调度。
+## 学习循环
+
+```
+执行任务 → 提取经验信号 → 创建ECAP → 存储
+    ↑                                    ↓
+    └──── 反馈评分 ← 验证结果 ← 应用ECAP ──┘
+```
+
+## 与我的关系
+
+ClawCode 是**AI编程代理平台**，面向开发者。我（小梦）是**个人AI助理**，面向小余。
+- 共同点：工具编排、记忆系统、多轮对话
+- 可借鉴：记忆分层设计、多Agent协同、插件化架构
