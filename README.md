@@ -30,6 +30,7 @@
 ```
 xiaomeng-workspace/
 ├── AGENTS.md
+├── Failure.png
 ├── HEARTBEAT.md
 ├── IDENTITY.md
 ├── MEMORY.md
@@ -107,6 +108,7 @@ maintain-soul.sh → 兜底检查
 ```
 xiaomeng-workspace/
 ├── AGENTS.md
+├── Failure.png
 ├── HEARTBEAT.md
 ├── IDENTITY.md
 ├── MEMORY.md
@@ -162,4 +164,4 @@ maintain-soul.sh → Fallback check
 
 <div align="right"><a href="#-小梦工作区">⬆ Back to top</a></div>
 
-> 📅 Auto-maintained — Last updated: 2026-05-23 10:40
+> 📅 Auto-maintained — Last updated: 2026-05-23 16:07
