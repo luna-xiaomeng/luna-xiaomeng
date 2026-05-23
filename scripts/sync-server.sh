@@ -405,6 +405,8 @@ sync_once() {
     state=$(check_new_messages "$state")
     state=$(check_new_submissions "$state")
     save_state "$state"
+    fix_file_permissions
+    clean_logs
     ok "[DONE] 同步完成"
 }
 
