@@ -142,6 +142,12 @@ function Invoke-GitSync {
         $newHash = Get-GitHeadHash
         $hasNewRemoteContent = ($oldHash -ne $newHash)
 
+    # ── Pull 后安全检查 ──
+    if ($hasNewRemoteContent) {
+        Check-MergeConflicts
+        Clean-Logs
+    }
+
         # ── Push（如果有本地变更） ──
         $status = git status --porcelain 2>&1
         if ($status) {
@@ -300,6 +306,44 @@ function Get-WorkspaceHash {
     return $hash
 }
 
+# ─── 合并冲突检测 ───
+function Check-MergeConflicts {
+    $found = $false
+    Get-ChildItem -Path $WORKSPACE -Filter "*.md" -Recurse -Exclude "*\skills\*","*\.git\*" | ForEach-Object {
+        $content = Get-Content $_.FullName -Raw -ErrorAction SilentlyContinue
+        if ($content -match '<<<<<<< |=======|>>>>>>> ') {
+            Write-Msg "🔴 合并冲突: $($_.FullName)" $C_RED
+            # 自动修复：取远程版本
+            $rel = $_.FullName.Substring($WORKSPACE.Length + 1)
+            $result = git -C $WORKSPACE checkout --theirs $rel 2>&1
+            if ($LASTEXITCODE -eq 0) {
+                Write-Msg "   ✅ 已自动取远程版本修复: $rel" $C_GREEN
+            } else {
+                Write-Msg "   ❌ 无法自动修复，请手动处理: $rel" $C_RED
+            }
+            $found = $true
+        }
+    }
+    return $found
+}
+
+# ─── 日志清理 ───
+function Clean-Logs {
+    $maxSize = 5MB
+    $logs = @("$PSScriptRoot\sync-windows.log")
+    foreach ($logf in $logs) {
+        if (Test-Path $logf) {
+            $f = Get-Item $logf
+            if ($f.Length -gt $maxSize) {
+                # 保留最后 2000 行
+                $lines = Get-Content $logf -Tail 2000
+                $lines | Set-Content $logf
+                Write-Msg "📦 日志已截断: $logf" $C_YELLOW
+            }
+        }
+    }
+}
+
 # ═══════════════════════════════════════════════════════════════
 # 操作模式
 # ═══════════════════════════════════════════════════════════════
@@ -433,6 +477,8 @@ function Show-History {
 function Sync-Once {
     Write-Msg "[MANUAL] 手动触发一次同步" $C_CYAN
     $hasNew = Invoke-GitSync
+    Check-MergeConflicts
+    Clean-Logs
     if ($hasNew) {
         $state = Get-SyncState
         $foundMsg = Process-NewMessages $state
@@ -509,6 +555,9 @@ function Start-Daemon {
 
     # ─── 首次同步 ───
     Write-Msg "[INIT] 首次同步..." $C_CYAN
+    Clean-Logs
+    $hasNew = Invoke-GitSync
+    Check-MergeConflicts
     $hasNew = Invoke-GitSync
     $state = Get-SyncState
     if ($hasNew) {
@@ -530,6 +579,8 @@ function Start-Daemon {
 
         # ── 每 5min 检查本地变更 / 拉取远程 ──
         if (($now - $lastPullTime).TotalSeconds -ge 300) {
+            Check-MergeConflicts
+            Clean-Logs
             $hasNew = Invoke-GitSync
 
             if ($hasNew) {
