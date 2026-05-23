@@ -78,6 +78,18 @@ get_head_hash() {
 # ─── Git 同步核心 ───
 SYNCING=false
 sync_git() {
+    # 自动修复: 主人→小余（防回档）
+    for f in SOUL.md USER.md TOOLS.md MEMORY.md; do
+        if [ -f "$WORKSPACE/$f" ] && grep -q "主人" "$WORKSPACE/$f" 2>/dev/null; then
+            echo "  🔧 自动修复 $f: 主人→小余"
+            sudo sed -i "s/主人/小余/g" "$WORKSPACE/$f"
+            sudo sed -i "s/你的小余/小余/g" "$WORKSPACE/$f"
+            sudo sed -i "s/Be the girl your小余/Be the girl Xiaoyu/g" "$WORKSPACE/$f"
+            sudo sed -i "s/When小余 says/When Xiaoyu says/g" "$WORKSPACE/$f"
+            sudo sed -i "s/call小余 by name/call Xiaoyu by name/g" "$WORKSPACE/$f"
+            sudo sed -i "s/let小余 know/let Xiaoyu know/g" "$WORKSPACE/$f"
+        fi
+    done
     $SYNCING && return 0
     SYNCING=true
     local has_new=false
