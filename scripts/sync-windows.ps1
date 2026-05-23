@@ -149,29 +149,40 @@ function Invoke-GitSync {
     }
 
         # ── Push（如果有本地变更） ──
-        $status = git status --porcelain 2>&1
-        if ($status) {
-            # 排除缓冲区系统文件从自动commit的消息中单独提及
-            $hasBufferChanges = $status -match '^\s*[MA]\s+buffer/'
-            $hasFileChanges = $status -match '^\s*[MA]\s+(?!buffer/)'
+        # ??? 优化: 只提交有意义的变更
+        #  - 排除 .sync-state.json (已取消跟踪, 但 guard 一下)
+        #  - 排除 .pid .lock .log 等临时文件
+        #  - 检查是否有真正的内容变更
+        $rawStatus = git status --porcelain 2>&1
+        if ($rawStatus) {
+            # 过滤掉无意义的变更
+            $meaningfulStatus = $rawStatus | Where-Object {
+                $_ -notmatch 'scripts/\.sync-state\.json$' -and
+                $_ -notmatch '\.(pid|lock|log)$' -and
+                $_ -notmatch 'nutstore-compat\.log$'
+            }
+            
+            if ($meaningfulStatus) {
+                # 安全提交: 只添加已跟踪文件的修改 + 关键目录
+                # 不添加未跟踪的新文件，更不会提交删除文件
+                # 避免同步守护把工作区未及时拉取的文件覆盖
+                git add -u 2>&1 | Out-Null          # 已跟踪文件的修改
+                git add buffer/ 2>&1 | Out-Null      # buffer 通信目录
+                git add scripts/ 2>&1 | Out-Null     # 脚本目录 (排除 .sync-state.json)
+                git add memory/ 2>&1 | Out-Null      # 日记目录
+                git add shared/ 2>&1 | Out-Null      # 共享记忆目录
 
-            # 安全提交: 只添加已跟踪文件的修改 + buffer/ 目录
-            # 不添加未跟踪的新文件，更不会提交删除文件
-            # 避免同步守护把工作区未及时拉取的文件覆盖
-            git add -u 2>&1 | Out-Null          # 已跟踪文件的修改
-            git add buffer/ 2>&1 | Out-Null      # buffer 通信目录
-            git add scripts/ 2>&1 | Out-Null     # 脚本目录
-            git add memory/ 2>&1 | Out-Null      # 日记目录
-            git add shared/ 2>&1 | Out-Null      # 共享记忆目录
-
-            $commitOut = git commit -m "🔄 自动同步 $(Get-Date -Format 'yyyy-MM-dd HH:mm')" 2>&1
-            if ($LASTEXITCODE -eq 0) {
-                $pushOut = git push origin master 2>&1
+                $commitOut = git commit -m "🔄 自动同步 $(Get-Date -Format 'yyyy-MM-dd HH:mm')" 2>&1
                 if ($LASTEXITCODE -eq 0) {
-                    Write-Msg "[PUSH] 成功（$(@($status).Count) 个文件改动）" $C_GREEN
-                } else {
-                    Write-Msg "[ERR] 推送失败：$pushOut" $C_RED
+                    $pushOut = git push origin master 2>&1
+                    if ($LASTEXITCODE -eq 0) {
+                        Write-Msg "[PUSH] 成功（$(@($meaningfulStatus).Count) 个有效改动）" $C_GREEN
+                    } else {
+                        Write-Msg "[ERR] 推送失败：$pushOut" $C_RED
+                    }
                 }
+            } else {
+                Write-Msg "[SKIP] 只有无意义变更（状态文件等），跳过本轮提交" $C_GRAY
             }
         }
 
