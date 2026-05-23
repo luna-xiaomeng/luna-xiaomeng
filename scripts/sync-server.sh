@@ -70,6 +70,52 @@ save_state() {
     echo "$1" > "$STATE_FILE"
 }
 
+# ─── 合并冲突检测 ───
+check_merge_conflicts() {
+    local found=false
+    while IFS= read -r -d '' file; do
+        if grep -q '<<<<<<< \|=======\|>>>>>>> ' "$file" 2>/dev/null; then
+            warn "🔴 合并冲突: $file"
+            # 自动修复：取远程（ours）版本，因为本地可能被错误覆盖
+            local rel="${file#$WORKSPACE/}"
+            if git -C "$WORKSPACE" checkout --theirs "$rel" 2>/dev/null; then
+                ok "   ✅ 已自动取远程版本修复: $rel"
+            else
+                err "   ❌ 无法自动修复，请手动处理: $rel"
+            fi
+            found=true
+        fi
+    done < <(find "$WORKSPACE" -name '*.md' ! -path '*/skills/*' ! -path '*/.git/*' -print0 2>/dev/null)
+    $found && return 0 || return 1
+}
+
+# ─── 文件权限修复 ───
+fix_file_permissions() {
+    local fixed=false
+    local root_files=$(find "$WORKSPACE" -user root ! -path '*/.git/*' 2>/dev/null)
+    if [ -n "$root_files" ]; then
+        sudo chown -R admin:admin "$WORKSPACE" 2>/dev/null
+        fixed=true
+    fi
+    # 确保关键文件权限正确
+    sudo chmod -R u+w "$WORKSPACE" 2>/dev/null
+    $fixed && ok "🔧 已修复文件权限"
+}
+
+# ─── 日志清理 ───
+clean_logs() {
+    local max_size=5242880  # 5MB
+    for logf in "$LOG_FILE" "$WORKSPACE/scripts/sync-server-cron.log" "$WORKSPACE/scripts/sync-server-start.log"; do
+        if [ -f "$logf" ] && [ $(stat -c%s "$logf" 2>/dev/null || echo 0) -gt $max_size ]; then
+            # 保留最后 2000 行
+            tail -n 2000 "$logf" > "${logf}.tmp" && mv "${logf}.tmp" "$logf"
+            info "📦 日志已截断: $logf"
+        fi
+    done
+    # 删除 7 天前的旧日志
+    find "$WORKSPACE/scripts" -name '*.log.*' -mtime +7 -delete 2>/dev/null
+}
+
 # ─── 获取远端 HEAD hash ───
 get_head_hash() {
     git -C "$WORKSPACE" rev-parse HEAD 2>/dev/null || echo ""
