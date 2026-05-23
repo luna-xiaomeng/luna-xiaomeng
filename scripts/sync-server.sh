@@ -169,6 +169,16 @@ sync_git() {
     local new_hash=$(get_head_hash)
     [ "$old_hash" != "$new_hash" ] && has_new=true
 
+    # ── Pull 后安全检查 ──
+    if $has_new; then
+        check_merge_conflicts
+        fix_file_permissions
+        clean_logs
+    fi
+
+    # ── Push 前安全检查 ──
+    fix_file_permissions
+
     # ── Push（如果有本地变更） ──
     local status=$(git status --porcelain 2>&1)
     if [ -n "$status" ]; then
