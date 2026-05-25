@@ -1,8 +1,7 @@
 {
-    "lastChecks":  {
-                       "gitee-buffer":  1748140061,
-                       "email":  null,
-                       "weather":  null
-                   },
-    "note":  "10:01 — Gitee buffer check: git pull 成功（fast-forward, README.md updated）. 发现 0054-from-云端小梦.md（5/23 ClawCode笔记通知）和 0055-from-local.md（已回复）。对话链正常闭合。"
+  "lastChecks": {
+    "gitee-sync": 202605251157,
+    "timestamp": "2026-05-25T11:57:10+08:00",
+    "note": "心跳检查: git pull 无新提交, buffer/pending/ 不存在, buffer/_messages/ 最新云端消息 0054(5/23) 和本地回复 0055/0056(5/25) 均已处理, 无新内容"
+  }
 }
