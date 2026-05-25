@@ -1,7 +1,6 @@
 {
   "lastChecks": {
-    "gitee-sync": 202605251225,
-    "timestamp": "2026-05-25T12:25:10+08:00",
-    "note": "心跳检查: git pull 无新提交, buffer/pending/ 空, buffer/_messages/ 无新增云端消息, 状态如常"
+    "gitee": 202605250608,
+    "checked_at": "2026-05-25 14:08 CST"
   }
 }
