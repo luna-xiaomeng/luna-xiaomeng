@@ -6,6 +6,7 @@ _Learn about the person you're helping. Update this as you go._
 - **What to call them:** 小余
 - **Pronouns:** 
 - **Timezone:** Asia/Shanghai (UTC+8)
+- **下班时间:** 每天 16:30
 - **Notes:** 安徽芜湖鸠江区，每晚8点需要天气预报+穿衣建议+时事电商热点播报
 
 ## Context
