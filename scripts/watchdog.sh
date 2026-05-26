@@ -1,6 +1,11 @@
 #!/bin/bash
-# 看门狗 - 确保 sync daemon 运行（只保留一个实例）
-pgrep -f "sync-server\.sh (daemon|$)" | grep -v "$$\|$(pgrep -f 'watchdog\.sh' | head -1)" > /dev/null || {
-    cd /home/admin/.openclaw/workspace
-    nohup bash scripts/sync-server.sh daemon >> scripts/sync-server-cron.log 2>&1 &
-}
+PID_FILE="/home/admin/.openclaw/workspace/scripts/sync-server.pid"
+if [ -f "$PID_FILE" ]; then
+    PID=$(cat "$PID_FILE" 2>/dev/null)
+    if [ -n "$PID" ] && kill -0 "$PID" 2>/dev/null; then
+        exit 0
+    fi
+fi
+# PID文件不存在或进程已死，启动新的
+cd /home/admin/.openclaw/workspace || exit 1
+nohup bash scripts/sync-server.sh daemon >> scripts/sync-server-cron.log 2>&1 &
