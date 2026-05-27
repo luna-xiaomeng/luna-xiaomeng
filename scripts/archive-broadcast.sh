@@ -10,7 +10,7 @@
 set -e
 
 WORKSPACE_DIR="/home/admin/.openclaw/workspace"
-FILE="${WORKSPACE_DIR}/broadcast.md"
+FILE="${WORKSPACE_DIR}/data/shared/broadcast.md"
 DATE=$(date '+%Y-%m-%d')
 TIME=$(date '+%H:%M')
 

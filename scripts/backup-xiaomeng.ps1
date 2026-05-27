@@ -97,7 +97,7 @@ foreach ($file in $coreFiles) {
     }
 }
 
-# 同步子目录（memory/, avatars/）
+# 同步子目录（data/shared/memory/, assets/avatars/）
 foreach ($dir in $dirsToSync) {
     # SSH 列出服务器上该目录的所有文件
     $escapedDir = $dir -replace "'", "'\\''"
@@ -140,25 +140,25 @@ foreach ($file in $coreFiles) {
 $logLines += "  [OK] $localCount core files → Nutstore"
 
 # memory/
-$memoryWs = Join-Path $workspace "memory"
+$memoryWs = Join-Path $workspace "data/shared/memory"
 if (Test-Path $memoryWs) {
     $memoryBk = Join-Path $backupDir "memory"
     if (-not (Test-Path $memoryBk)) { New-Item -ItemType Directory -Path $memoryBk -Force | Out-Null }
     Get-ChildItem $memoryWs -File | ForEach-Object {
         Copy-Item $_.FullName (Join-Path $memoryBk $_.Name) -Force
     }
-    $logLines += "  [OK] memory/ ($((Get-ChildItem $memoryWs -File).Count) files)"
+    $logLines += "  [OK] data/shared/memory/ ($((Get-ChildItem $memoryWs -File).Count) files)"
 }
 
 # avatars/
-$avatarWs = Join-Path $workspace "avatars"
+$avatarWs = Join-Path $workspace "assets/avatars"
 if (Test-Path $avatarWs) {
     $avatarBk = Join-Path $backupDir "avatars"
     if (-not (Test-Path $avatarBk)) { New-Item -ItemType Directory -Path $avatarBk -Force | Out-Null }
     Get-ChildItem $avatarWs -File | ForEach-Object {
         Copy-Item $_.FullName (Join-Path $avatarBk $_.Name) -Force
     }
-    $logLines += "  [OK] avatars/"
+    $logLines += "  [OK] assets/avatars/"
 }
 
 # 清理旧历史版本
@@ -207,8 +207,8 @@ $logLines += "--- [Phase 4] Trigger admin workspace sync ---"
 try {
     $triggerCmd = @"
 # 将备份目录的最新状态同步到 admin workspace
-rsync -a --include='*.md' --include='memory/' --include='avatars/' --exclude='*' $remotePath/ /home/admin/.openclaw/workspace/ 2>/dev/null
-chown -R admin:admin /home/admin/.openclaw/workspace/*.md /home/admin/.openclaw/workspace/memory /home/admin/.openclaw/workspace/avatars 2>/dev/null
+rsync -a --include='*.md' --include='data/' --include='assets/' --exclude='*' $remotePath/ /root/.openclaw/workspace/ 2>/dev/null
+chown -R root:root /root/.openclaw/workspace/*.md /root/.openclaw/workspace/data /root/.openclaw/workspace/assets 2>/dev/null
 echo "ADMIN_SYNC_OK"
 "@
     $adminResult = & ssh -i $sshKey -o StrictHostKeyChecking=no -o ConnectTimeout=10 $server $triggerCmd 2>&1

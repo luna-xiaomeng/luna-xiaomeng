@@ -188,7 +188,7 @@ sync_git() {
         git add -u 2>/dev/null           # 已跟踪文件的修改
         git add buffer/ 2>/dev/null       # buffer 通信目录
         git add scripts/ 2>/dev/null      # 脚本目录  
-        git add memory/ 2>/dev/null       # 日记目录
+        git add data/shared/memory/ 2>/dev/null       # 日记目录
         git add shared/ 2>/dev/null       # 共享记忆目录
 
         git commit -m "🔄 自动同步 $(date '+%Y-%m-%d %H:%M')" 2>/dev/null

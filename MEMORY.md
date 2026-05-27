@@ -17,7 +17,7 @@
 
 **备份脚本:** `backup-xiaomeng.ps1`
 - 自动备份核心文件（SOUL.md、IDENTITY.md、AGENTS.md、TOOLS.md、USER.md、HEARTBEAT.md）
-- 备份 memory/ 每日记录和 avatars/ 头像
+- 备份 data/shared/memory/ 每日记录和 assets/avatars/ 头像
 - 保留最近30个历史版本
 - SCP推送到阿里云服务器
 

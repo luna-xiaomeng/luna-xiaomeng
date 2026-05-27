@@ -22,9 +22,12 @@ desktop.ini
 *~
 
 # Runtime / auto-generated
-memory/.dreams/
+data/runtime/
+.local/
 scripts/sync-windows.log
 scripts/sync-windows.pid
+skills/.agents/
+scripts/.sync-state.json
 
 # Local TTS / AI coding projects (not for sync)
 dl_*.py
@@ -38,8 +41,8 @@ check_*.py
 对话记录*
 private/
 
-# OpenClaw agent skill cache (auto-generated)
-skills/.agents/
+# Old paths (cleanup)
+memory/.dreams/
 
-# Sync state (changes every cycle, don't track)
-scripts/.sync-state.json
+# Skill-specific
+skills/capability-evolver/node_modules/

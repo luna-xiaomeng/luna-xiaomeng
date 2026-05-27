@@ -169,7 +169,7 @@ function Invoke-GitSync {
                 git add -u 2>&1 | Out-Null          # 已跟踪文件的修改
                 git add buffer/ 2>&1 | Out-Null      # buffer 通信目录
                 git add scripts/ 2>&1 | Out-Null     # 脚本目录 (排除 .sync-state.json)
-                git add memory/ 2>&1 | Out-Null      # 日记目录
+                git add data/shared/memory/ 2>&1 | Out-Null      # 日记目录
                 git add shared/ 2>&1 | Out-Null      # 共享记忆目录
 
                 $commitOut = git commit -m "🔄 自动同步 $(Get-Date -Format 'yyyy-MM-dd HH:mm')" 2>&1

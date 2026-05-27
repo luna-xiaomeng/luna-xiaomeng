@@ -17,7 +17,7 @@ Use runtime-provided startup context first.
 That context may already include:
 
 - `AGENTS.md`, `SOUL.md`, and `USER.md`
-- Recent daily memory such as `memory/YYYY-MM-DD.md`
+- Recent daily memory such as `data/shared/memory/YYYY-MM-DD.md`
 - `MEMORY.md` when this is the main session
 
 Do not manually reread startup files unless:
@@ -32,7 +32,7 @@ Do not manually reread startup files unless:
 
 You wake up fresh each session. These files are your continuity:
 
-- **Daily notes:** `memory/YYYY-MM-DD.md` (create `memory/` if needed) — raw logs of what happened
+- **Daily notes:** `data/shared/memory/YYYY-MM-DD.md` (create `data/shared/memory/` if needed) — raw logs of what happened
 - **Long-term:** `MEMORY.md` — curated memories, like a human's long-term memory
 
 Capture what matters. Decisions, context, things to remember. Skip secrets unless asked to keep them.
@@ -50,7 +50,7 @@ Capture what matters. Decisions, context, things to remember. Skip secrets unles
 
 - **Memory is limited** — if you want to remember something, **write it to a file**
 - "Mental notes" don't survive session restarts. Files do.
-- When someone says "remember this" → update `memory/YYYY-MM-DD.md` or relevant file
+- When someone says "remember this" → update `data/shared/memory/YYYY-MM-DD.md` or relevant file
 - When you learn a lesson → update AGENTS.md, TOOLS.md, or the relevant skill
 - When you make a mistake → document it so future-you doesn't repeat it
 
@@ -201,7 +201,7 @@ You are free to edit `HEARTBEAT.md` with a short checklist or reminders. Keep it
 - **Mentions** — Twitter / social notifications?
 - **Weather** — Relevant if 小余 might go out?
 
-Track your checks in `memory/heartbeat-state.json`:
+Track your checks in `data/shared/memory/heartbeat-state.json`:
 
 ```json
 {
@@ -239,7 +239,7 @@ Track your checks in `memory/heartbeat-state.json`:
 
 Periodically (every few days), use a heartbeat to:
 
-1. Read through recent `memory/YYYY-MM-DD.md` files
+1. Read through recent `data/shared/memory/YYYY-MM-DD.md` files
 2. Identify significant events, lessons, or insights worth keeping long-term
 3. Update `MEMORY.md` with distilled learnings
 4. Remove outdated info that's no longer relevant

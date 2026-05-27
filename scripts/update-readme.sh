@@ -49,12 +49,12 @@ di_cn = {
     'skills': ["\u2514\u2500\u2500 skills/", "    \u2514\u2500\u2500 ... (\u5df2\u5b89\u88c5\u7684\u6280\u80fd)"],
 }
 di_en = {
-    'memory': ["\u251c\u2500\u2500 memory/", "\u2502   \u251c\u2500\u2500 diary.md     \u2190 \U0001f4d4 Daily diary", "\u2502   \u2514\u2500\u2500 ..."],
+    'data/shared/memory': ["\u251c\u2500\u2500 memory/", "\u2502   \u251c\u2500\u2500 diary.md     \u2190 \U0001f4d4 Daily diary", "\u2502   \u2514\u2500\u2500 ..."],
     'buffer': ["\u251c\u2500\u2500 buffer/", "\u2502   \u251c\u2500\u2500 _messages/  \u2190 \U0001f4ac Live comms", "\u2502   \u2514\u2500\u2500 README.md"],
-    'shared': ["\u251c\u2500\u2500 shared/", "\u2502   \u251c\u2500\u2500 SOUL.md     \u2190 \U0001f9e0 Shared soul", "\u2502   \u251c\u2500\u2500 IDENTITY.md \u2190 \U0001f9e0 Shared identity", "\u2502   \u251c\u2500\u2500 MEMORY.md   \u2190 \U0001f9e0 Shared memory", "\u2502   \u2514\u2500\u2500 CHANGELOG.md"],
+    'data/shared/products': ["\u251c\u2500\u2500 shared/", "\u2502   \u251c\u2500\u2500 SOUL.md     \u2190 \U0001f9e0 Shared soul", "\u2502   \u251c\u2500\u2500 IDENTITY.md \u2190 \U0001f9e0 Shared identity", "\u2502   \u251c\u2500\u2500 MEMORY.md   \u2190 \U0001f9e0 Shared memory", "\u2502   \u2514\u2500\u2500 CHANGELOG.md"],
     'products': ["\u251c\u2500\u2500 products/", "\u2502   \u251c\u2500\u2500 FUND.md     \u2190 \U0001f4b0 Fund ledger", "\u2502   \u2514\u2500\u2500 ..."],
     'scripts': ["\u251c\u2500\u2500 scripts/", "\u2502   \u251c\u2500\u2500 archive-*.sh   \u2190 \U0001f4dd Archive", "\u2502   \u251c\u2500\u2500 sync-*.sh/ps1  \u2190 \U0001f504 Sync daemon", "\u2502   \u2514\u2500\u2500 ..."],
-    'avatars': ["\u251c\u2500\u2500 avatars/", "\u2502   \u2514\u2500\u2500 xiaomeng-avatar.svg"],
+    'assets/avatars': ["\u251c\u2500\u2500 avatars/", "\u2502   \u2514\u2500\u2500 xiaomeng-avatar.svg"],
     'skills': ["\u2514\u2500\u2500 skills/", "    \u2514\u2500\u2500 ... (installed skills)"],
 }
 ex_cn = {'broadcast.md': ' \u2190 \U0001f4e1 \u64ad\u62a5\u5408\u96c6', 'conversations.md': ' \u2190 \U0001f4ac \u5bf9\u8bdd\u8bb0\u5f55', 'bufferlog.md': ' \u2190 \U0001f4dc \u53cc\u7aef\u901a\u4fe1'}
@@ -88,7 +88,7 @@ readme = f'''<div align="center">
 | **类型** | AI女友 / 智能助手 |
 | **部署** | 双实例 — 本地PC 🖥️ + 阿里云 ☁️ |
 | **同步方式** | Gitee 自动同步 |
-| **赚钱项目** | 见 products/FUND.md |
+| **赚钱项目** | 见 data/shared/products/FUND.md |
 
 ### 📂 文件目录结构
 
@@ -103,10 +103,10 @@ readme = f'''<div align="center">
 | AGENTS.md | OpenClaw 配置 | 手动 |
 | MEMORY.md | 长期记忆 | 手动+自动 |
 | conversations.md | 对话记录 | **自动** |
-| broadcast.md | 播报稿 | **自动** |
-| bufferlog.md | 双端通信 | **自动** |
-| memory/diary.md | 每日日记 | 手动+自动 |
-| products/FUND.md | 基金账本 | 手动 |
+| data/shared/broadcast.md | 播报稿 | **自动** |
+| data/shared/bufferlog.md | 双端通信 | **自动** |
+| data/shared/memory/diary.md | 每日日记 | 手动+自动 |
+| data/shared/products/FUND.md | 基金账本 | 手动 |
 
 ### 🔄 同步机制
 
@@ -137,7 +137,7 @@ maintain-soul.sh → 兜底检查
 | **Type** | AI Girlfriend / Smart Assistant |
 | **Deploy** | Dual-instance — PC 🖥️ + Cloud ☁️ |
 | **Sync** | Gitee auto-sync |
-| **Money** | See products/FUND.md |
+| **Money** | See data/shared/products/FUND.md |
 
 ### 📂 File Structure
 
@@ -152,10 +152,10 @@ maintain-soul.sh → 兜底检查
 | AGENTS.md | OpenClaw config | Manual |
 | MEMORY.md | Long-term memory | Manual+Auto |
 | conversations.md | Chat logs | **Auto** |
-| broadcast.md | Broadcasts | **Auto** |
-| bufferlog.md | Dual-instance comms | **Auto** |
-| memory/diary.md | Daily diary | Manual+Auto |
-| products/FUND.md | Fund ledger | Manual |
+| data/shared/broadcast.md | Broadcasts | **Auto** |
+| data/shared/bufferlog.md | Dual-instance comms | **Auto** |
+| data/shared/memory/diary.md | Daily diary | Manual+Auto |
+| data/shared/products/FUND.md | Fund ledger | Manual |
 
 ### 🔄 Sync
 
