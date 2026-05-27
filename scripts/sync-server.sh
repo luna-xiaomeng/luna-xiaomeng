@@ -16,7 +16,7 @@
 #   bash scripts/sync-server.sh stop         # 停止守护
 # ═══════════════════════════════════════════════════════════════
 
-WORKSPACE="/home/admin/.openclaw/workspace"
+WORKSPACE="/root/.openclaw/workspace"
 BUFFER_DIR="$WORKSPACE/buffer"
 MESSAGES_DIR="$BUFFER_DIR/_messages"
 STATE_FILE="$BUFFER_DIR/.sync-state.json"
