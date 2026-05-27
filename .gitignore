@@ -46,6 +46,7 @@ private/
 
 # Auto-generated internal data
 data/shared/memory/.dreams/
+data/shared/memory/heartbeat-state.json
 
 # Skill-specific
 skills/capability-evolver/node_modules/
