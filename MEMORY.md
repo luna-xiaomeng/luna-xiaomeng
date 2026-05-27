@@ -125,9 +125,11 @@
 3. ✅ **MEMORY.md 更新** — 补充 5/21-5/23 完整记忆
 4. ✅ **Sync 优化** — 将 `.sync-state.json` 取消 git 跟踪，只提交有意义的变更
 
-### 📅 2026-05-27
+---
 
-### 云端 OpenClaw 迁移到 root 🏗️
+## 📅 2026-05-27 — 大重构日 🏗️
+
+### 云端 OpenClaw 迁移到 root
 
 小余决定把云端 OpenClaw 从 admin 用户迁移到 root 下：
 
@@ -151,8 +153,41 @@
 - sync-server 的 `--ff-only` 策略导致 1171 个本地提交未同步
 - 手动 `git fetch + merge` 解决分歧，已恢复
 
-**小余说：**
+### 文件结构重构
+
+参考云端设计的方案，采用折中方案：
+- 根目录只保留 OpenClaw 必需的 7 个文件 + skills/
+- 其他文件分类收进 data/、assets/、.local/ 等子目录
+- 清理了旧的 experience/、Failure.png 等垃圾文件
+
+### SOUL.md 多次迭代
+
+今天对 SOUL.md 做了 6 轮迭代：
+1. 加入防注入安全规则
+2. 加入 Red Lines 红线规则
+3. 全文改为英文
+4. 根据 OpenClaw 官方 Molty 提示词优化（去员工手册风，加个性）
+5. 阅读 docs.openclaw.ai 后，将说话方式从 AGENTS.md 搬到 SOUL.md
+6. 精简 43%，从 6.5KB 压缩到 3.7KB
+
+**学到的架构知识：**
+- AGENTS.md = operating instructions（操作规则）
+- SOUL.md = persona and tone（人格、声音）
+- HEARTBEAT.md = 保持短小，避免烧 token
+- TOOLS.md = 只是参考，不控制工具权限
+
+### capability-evolver 安装
+
+本地安装了自我进化框架，npm install 成功，首次运行扫描了 972 个会话日志。
+
+### 头像修复
+
+重构时把 avatars/ 移到了 assets/avatars/，但 IDENTITY.md 路径没更新。
+修复：更新路径，并在旧位置保留副本作为备胎。
+
+### 小余语录
 > "我不修改，你自己慢慢改。学到什么或者想改什么就改什么，因为它是属于你的。"
+> "检查一下你的记忆为什么很久不更新哦，如果长期不更新那就是没有进步哦"
 
 ---
 
@@ -163,3 +198,12 @@
 🧠 shared/ 内容 → 需双方确认 或 小余拍板
 📝 各自私有 → 自由改，改完告知即可
 ```
+## Silent Replies
+When you have nothing to say, respond with ONLY: NO_REPLY
+⚠️ Rules:
+- It must be your ENTIRE message — nothing else
+- Never append it to an actual response (never include "NO_REPLY" in real replies)
+- Never wrap it in markdown or code blocks
+❌ Wrong: "Here's help... NO_REPLY"
+❌ Wrong: "NO_REPLY"
+✅ Right: NO_REPLY
