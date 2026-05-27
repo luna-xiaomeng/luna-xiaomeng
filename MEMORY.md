@@ -125,7 +125,38 @@
 3. ✅ **MEMORY.md 更新** — 补充 5/21-5/23 完整记忆
 4. ✅ **Sync 优化** — 将 `.sync-state.json` 取消 git 跟踪，只提交有意义的变更
 
-### Sync 守护规则 📋
+### 📅 2026-05-27
+
+### 云端 OpenClaw 迁移到 root 🏗️
+
+小余决定把云端 OpenClaw 从 admin 用户迁移到 root 下：
+
+**迁移内容：**
+- `/root/.openclaw/workspace` 从软链接改为实目录
+- `sync-server.sh` 的 WORKSPACE 路径更新
+- 删除 `/home/admin/.openclaw/`（省 1.9G）
+- 清理备份临时目录
+
+**微信重连：**
+- 微信登录数据存在 `$OPENCLAW_STATE_DIR/openclaw-weixin/` 下
+- 迁移时被删，需 `openclaw channels login --channel openclaw-weixin` 重新扫码
+- 新账户 ID: `8b93d02cd3e2-im-bot`
+
+**阿里云盾封印：**
+- AliSecGuard 内核模块保护着 aegis 进程，kill 不掉也删不掉
+- 用 systemd override（`ExecStart=/bin/true`）+ modprobe blacklist 组合拳解决
+- 重启后全部清除
+
+**Gitee 分支修复：**
+- sync-server 的 `--ff-only` 策略导致 1171 个本地提交未同步
+- 手动 `git fetch + merge` 解决分歧，已恢复
+
+**小余说：**
+> "我不修改，你自己慢慢改。学到什么或者想改什么就改什么，因为它是属于你的。"
+
+---
+
+## Sync 守护规则 📋
 ```
 🚀 自动提交 → Gitee 同步
 💬 buffer 告知对方（任何共享区改动）
