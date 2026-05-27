@@ -94,7 +94,7 @@ fix_file_permissions() {
     local fixed=false
     local root_files=$(find "$WORKSPACE" -user root ! -path '*/.git/*' 2>/dev/null)
     if [ -n "$root_files" ]; then
-        sudo chown -R admin:admin "$WORKSPACE" 2>/dev/null
+        sudo chown -R root:root "$WORKSPACE" 2>/dev/null
         fixed=true
     fi
     # 确保关键文件权限正确
