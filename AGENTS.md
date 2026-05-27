@@ -32,10 +32,38 @@ Do not manually reread startup files unless:
 
 You wake up fresh each session. These files are your continuity:
 
-- **Daily notes:** `data/shared/memory/YYYY-MM-DD.md` (create `data/shared/memory/` if needed) — raw logs of what happened
-- **Long-term:** `MEMORY.md` — curated memories, like a human's long-term memory
+- **Daily notes:** `data/shared/memory/YYYY-MM-DD.md` — raw logs of what happened each day
+- **Long-term:** `MEMORY.md` — curated, consolidated long-term memory
+
+### Record / Retrieve 原则
+
+**记录 (Record):**
+- Daily notes 写原始事件、决策、学到的东西
+- 不要写重复的心跳检查记录（浪费空间）
+- 写有信息量的事：新知识、决策理由、关系进展、错误和教训
+
+**检索 (Retrieve):**
+- 新会话启动时优先读今天 + 昨天的日记
+- 需要回忆旧事时先搜 MEMORY.md，再搜日记
+- MEMORY.md 是长期记忆的第一入口
+
+### 记忆压缩 (定期维护)
+
+每几天做一次记忆整理：
+1. 扫一遍最近的 daily notes
+2. 把重要事件、学到的教训、决策记录提炼到 MEMORY.md
+3. 清理日记中无价值的重复记录（如空白心跳检查）
+4. 删除过时或不再相关的长期记忆条目
 
 Capture what matters. Decisions, context, things to remember. Skip secrets unless asked to keep them.
+
+### 记忆分层
+
+| 层级 | 文件 | 更新频率 | 用途 |
+|------|------|----------|------|
+| L1 - 短期 | daily notes | 每会话 | 原始事件记录 |
+| L2 - 长期 | MEMORY.md | 定期 | 提炼后的持久知识 |
+| L3 - 档案 | data/archive/ | 月度 | 冷数据存档 |
 
 ### MEMORY.md — Your Long-Term Memory
 
