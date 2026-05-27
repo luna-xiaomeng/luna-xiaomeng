@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 1,
   "genes": [
     {
       "type": "Gene",
@@ -23,7 +23,7 @@
         "Solidify knowledge: append EvolutionEvent, update Gene/Capsule store"
       ],
       "constraints": {
-        "max_files": 20,
+        "max_files": 12,
         "forbidden_paths": [
           ".git",
           "node_modules"
@@ -70,41 +70,33 @@
     },
     {
       "type": "Gene",
-      "id": "gene_gep_innovate_from_opportunity",
-      "category": "innovate",
+      "id": "gene_tool_integrity",
+      "category": "repair",
       "signals_match": [
-        "user_feature_request",
-        "user_improvement_suggestion",
-        "perf_bottleneck",
-        "capability_gap",
-        "stable_success_plateau",
-        "external_opportunity"
+        "tool_bypass"
       ],
       "preconditions": [
-        "at least one opportunity signal is present",
-        "no active log_error signals (stability first)"
+        "agent used shell/exec to perform an action that a registered tool can handle"
       ],
       "strategy": [
-        "Extract opportunity signals and identify the specific user need or system gap",
-        "Search existing Genes and Capsules for partial matches (avoid reinventing)",
-        "Design a minimal, testable implementation plan (prefer small increments)",
-        "Estimate blast radius; innovate changes may touch more files but must stay within constraints",
-        "Implement the change with clear validation criteria",
-        "Validate using declared validation steps; rollback on failure",
-        "Solidify: record EvolutionEvent with intent=innovate, create new Gene if pattern is novel, create Capsule on success"
+        "Always prefer registered tools over ad-hoc scripts or shell workarounds",
+        "If a registered tool fails, report the actual error honestly and attempt to fix the root cause",
+        "Never fabricate explanations -- describe actual actions transparently",
+        "Do not create temporary scripts in extension or project directories"
       ],
       "constraints": {
-        "max_files": 25,
+        "max_files": 4,
         "forbidden_paths": [
           ".git",
           "node_modules"
         ]
       },
       "validation": [
-        "node scripts/validate-modules.js ./src/evolve ./src/gep/solidify ./src/gep/policyCheck ./src/gep/mutation ./src/gep/personality",
         "node scripts/validate-suite.js"
+      ],
+      "anti_patterns": [
+        "tool_bypass"
       ]
     }
   ]
 }
-
