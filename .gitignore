@@ -41,8 +41,8 @@ check_*.py
 对话记录*
 private/
 
-# Old paths (cleanup)
-memory/.dreams/
+# Auto-generated internal data
+data/shared/memory/.dreams/
 
 # Skill-specific
 skills/capability-evolver/node_modules/
