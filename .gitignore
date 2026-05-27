@@ -41,6 +41,9 @@ check_*.py
 对话记录*
 private/
 
+# Local fallback copies (not for sync)
+/avatars/
+
 # Auto-generated internal data
 data/shared/memory/.dreams/
 
