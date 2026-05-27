@@ -1,11 +1,10 @@
 #!/bin/bash
 # =============================================
 # 🧠 小梦灵魂自主维护脚本（Linux / 云端版）
-# 检查 SOUL.md / IDENTITY.md 是否需要更新
-# 用法: bash scripts/maintain-soul.sh [check|status]
+# 检�?SOUL.md / IDENTITY.md 是否需要更�?# 用法: bash scripts/maintain-soul.sh [check|status]
 # =============================================
 
-WORKSPACE_DIR="/home/admin/.openclaw/workspace"
+WORKSPACE_DIR="/root/.openclaw/workspace"
 SOUL_FILE="${WORKSPACE_DIR}/SOUL.md"
 IDENTITY_FILE="${WORKSPACE_DIR}/IDENTITY.md"
 MEMORY_FILE="${WORKSPACE_DIR}/MEMORY.md"
@@ -22,9 +21,9 @@ check_status() {
             LINES=$(wc -l < "$FILE")
             SIZE=$(du -h "$FILE" | cut -f1)
             MTIME=$(stat -c '%y' "$FILE" 2>/dev/null | cut -d'.' -f1)
-            echo "  [${pair}] ${LINES}行, ${SIZE} (${MTIME})"
+            echo "  [${pair}] ${LINES}�? ${SIZE} (${MTIME})"
         else
-            echo "  [${pair}] 不存在"
+            echo "  [${pair}] 不存�?
         fi
     done
 }
@@ -44,7 +43,7 @@ check_needs_update() {
     if [ "$NEED_UPDATE" = true ]; then
         echo "[建议] 手动检查并更新 SOUL.md / IDENTITY.md"
     else
-        echo "[状态] 一切正常"
+        echo "[状态] 一切正�?
     fi
 }
 

@@ -1,15 +1,15 @@
 #!/bin/bash
 # =============================================
 # 播报自动存档脚本
-# 追加到 broadcast.md，按日期分章节
+# 追加�?broadcast.md，按日期分章�?
 # 用法: 
-#   交互式:  bash scripts/archive-broadcast.sh
-#   直接传:  bash scripts/archive-broadcast.sh "播报内容..."
+#   交互�?  bash scripts/archive-broadcast.sh
+#   直接�?  bash scripts/archive-broadcast.sh "播报内容..."
 # =============================================
 
 set -e
 
-WORKSPACE_DIR="/home/admin/.openclaw/workspace"
+WORKSPACE_DIR="/root/.openclaw/workspace"
 FILE="${WORKSPACE_DIR}/data/shared/broadcast.md"
 DATE=$(date '+%Y-%m-%d')
 TIME=$(date '+%H:%M')
@@ -36,7 +36,7 @@ fi
 # 追加播报内容
 sudo tee -a "$FILE" > /dev/null << BROADCAST
 
-## 📅 ${DATE} — 晚间播报
+## 📅 ${DATE} �?晚间播报
 
 ${CONTENT}
 
@@ -44,4 +44,4 @@ ${CONTENT}
 
 BROADCAST
 
-echo "✅ 播报已存档 → broadcast.md（${DATE}）"
+echo "�?播报已存�?�?broadcast.md�?{DATE}�?

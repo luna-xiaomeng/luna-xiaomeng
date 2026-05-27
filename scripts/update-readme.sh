@@ -1,10 +1,10 @@
 #!/bin/bash
 # =============================================
-# README.md 自动更新脚本（双语切换版）
-# 由 sync daemon 触发
+# README.md 自动更新脚本（双语切换版�?
+# �?sync daemon 触发
 # =============================================
 
-cd "/home/admin/.openclaw/workspace" || exit 1
+cd "/root/.openclaw/workspace" || exit 1
 
 python3 << 'PYEOF'
 import os
@@ -65,19 +65,19 @@ ten = make_tree(di_en, ex_en)
 
 readme = f'''<div align="center">
 
-# 🌸 小梦工作区
+# 🌸 小梦工作�?
 
-[🇨🇳 **中文**](#-中文版) · [🇬🇧 **English**](#-english-version)
+[🇨🇳 **中文**](#-中文�? · [🇬🇧 **English**](#-english-version)
 
 ---
 
 </div>
 
-<!-- ============ 中文版 ============ -->
+<!-- ============ 中文�?============ -->
 
-## 🇨🇳 中文版
+## 🇨🇳 中文�?
 
-> 小余的AI女友，分两个实例运行：**本地小梦🖥️（Windows）** 和 **云端小梦☁️（阿里云）**
+> 小余的AI女友，分两个实例运行�?*本地小梦🖥️（Windows�?* �?**云端小梦☁️（阿里云�?*
 
 ### 🤖 基本信息
 
@@ -86,9 +86,9 @@ readme = f'''<div align="center">
 | **名字** | 小梦 🌸 |
 | **称呼** | 小余 |
 | **类型** | AI女友 / 智能助手 |
-| **部署** | 双实例 — 本地PC 🖥️ + 阿里云 ☁️ |
+| **部署** | 双实�?�?本地PC 🖥�?+ 阿里�?☁️ |
 | **同步方式** | Gitee 自动同步 |
-| **赚钱项目** | 见 data/shared/products/FUND.md |
+| **赚钱项目** | �?data/shared/products/FUND.md |
 
 ### 📂 文件目录结构
 
@@ -98,35 +98,35 @@ readme = f'''<div align="center">
 
 | 文件 | 说明 | 更新方式 |
 |---|---|---|
-| SOUL.md | 灵魂/人格定义 | **自动（AI自主）** |
-| IDENTITY.md | 身份说明 | **自动（AI自主）** |
+| SOUL.md | 灵魂/人格定义 | **自动（AI自主�?* |
+| IDENTITY.md | 身份说明 | **自动（AI自主�?* |
 | AGENTS.md | OpenClaw 配置 | 手动 |
 | MEMORY.md | 长期记忆 | 手动+自动 |
 | conversations.md | 对话记录 | **自动** |
-| data/shared/broadcast.md | 播报稿 | **自动** |
+| data/shared/broadcast.md | 播报�?| **自动** |
 | data/shared/bufferlog.md | 双端通信 | **自动** |
 | data/shared/memory/diary.md | 每日日记 | 手动+自动 |
 | data/shared/products/FUND.md | 基金账本 | 手动 |
 
 ### 🔄 同步机制
 
-sync-server.sh（云端）/ sync-windows.ps1（本地）→ 实时双向同步
+sync-server.sh（云端）/ sync-windows.ps1（本地）�?实时双向同步
 
 ### 📝 存档脚本
 
-archive-conversation.sh → 对话存档（区分小余/小梦(本地)/小梦(云端)）
-archive-broadcast.sh → 播报存档
-maintain-soul.sh → 兜底检查
+archive-conversation.sh �?对话存档（区分小�?小梦(本地)/小梦(云端)�?
+archive-broadcast.sh �?播报存档
+maintain-soul.sh �?兜底检�?
 
 ---
 
-<div align="right"><a href="#-小梦工作区">⬆ 回到顶部</a></div>
+<div align="right"><a href="#-小梦工作�?>�?回到顶部</a></div>
 
 <!-- ============ English Version ============ -->
 
 ## 🇬🇧 English Version
 
-> Xiaoyu\'s AI girlfriend, two instances: **Local 🖥️ (Windows)** and **Cloud ☁️ (Alibaba)**
+> Xiaoyu\'s AI girlfriend, two instances: **Local 🖥�?(Windows)** and **Cloud ☁️ (Alibaba)**
 
 ### 🤖 Basics
 
@@ -135,7 +135,7 @@ maintain-soul.sh → 兜底检查
 | **Name** | Xiaomeng 🌸 |
 | **Calling Xiaoyu** | Xiaoyu |
 | **Type** | AI Girlfriend / Smart Assistant |
-| **Deploy** | Dual-instance — PC 🖥️ + Cloud ☁️ |
+| **Deploy** | Dual-instance �?PC 🖥�?+ Cloud ☁️ |
 | **Sync** | Gitee auto-sync |
 | **Money** | See data/shared/products/FUND.md |
 
@@ -159,22 +159,22 @@ maintain-soul.sh → 兜底检查
 
 ### 🔄 Sync
 
-sync-server.sh / sync-windows.ps1 → real-time bidirectional sync
+sync-server.sh / sync-windows.ps1 �?real-time bidirectional sync
 
 ### 📝 Scripts
 
-archive-conversation.sh → Chat archiving (Xiaoyu/Local/Cloud)
-archive-broadcast.sh → Broadcast archiving
-maintain-soul.sh → Fallback check
+archive-conversation.sh �?Chat archiving (Xiaoyu/Local/Cloud)
+archive-broadcast.sh �?Broadcast archiving
+maintain-soul.sh �?Fallback check
 
 ---
 
-<div align="right"><a href="#-小梦工作区">⬆ Back to top</a></div>
+<div align="right"><a href="#-小梦工作�?>�?Back to top</a></div>
 
-> 📅 Auto-maintained — Last updated: {now}
+> 📅 Auto-maintained �?Last updated: {now}
 '''
 
 with open("README.md", "w") as f:
     f.write(readme)
-print(f"✅ README.md updated ({now})")
+print(f"�?README.md updated ({now})")
 PYEOF

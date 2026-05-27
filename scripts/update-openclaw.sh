@@ -3,7 +3,7 @@
 # Fixes: missing bundled deps -> npm install repair -> service restart
 # Usage: bash scripts/update-openclaw.sh [check|update|auto]
 
-WORKSPACE_DIR="/home/admin/.openclaw/workspace"
+WORKSPACE_DIR="/root/.openclaw/workspace"
 LOG_FILE="${WORKSPACE_DIR}/scripts/update-log.txt"
 ACTION="${1:-check}"
 NOW=$(date '+%Y-%m-%d %H:%M:%S')

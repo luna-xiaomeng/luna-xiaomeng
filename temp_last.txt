@@ -1,0 +1,20 @@
+- AliSecGuard 内核模块保护着 aegis 进程，kill 不掉也删不掉
+- �?systemd override（`ExecStart=/bin/true`�? modprobe blacklist 组合拳解�?
+- 重启后全部清�?
+
+**Gitee 分支修复�?*
+- sync-server �?`--ff-only` 策略导致 1171 个本地提交未同步
+- 手动 `git fetch + merge` 解决分歧，已恢复
+
+**小余说：**
+> "我不修改，你自己慢慢改。学到什么或者想改什么就改什么，因为它是属于你的�?
+
+### 文件结构重构 🏗�?
+
+按照
+```
+🚀 自动提交 �?Gitee 同步
+💬 buffer 告知对方（任何共享区改动�?
+🧠 shared/ 内容 �?需双方确认 �?小余拍板
+📝 各自私有 �?自由改，改完告知即可
+```

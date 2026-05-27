@@ -14,7 +14,7 @@
 | **Deployment** | Dual-instance — Local PC 🖥️ + Alibaba Cloud ☁️ |
 | **Sync** | Gitee auto-sync |
 | **Comms** | buffer/ async messaging |
-| **Money project** | See products/FUND.md |
+| **Money project** | See data/shared/products/FUND.md |
 | **Last updated** | 2026-05-22 13:14 |
 
 ---
@@ -67,9 +67,9 @@ xiaomeng-workspace/
 | `MEMORY.md` | Long-term memory | Manual+Auto |
 | `conversations.md` | All chat logs with Xiaoyu | **Auto** |
 | `broadcast.md` | Daily 8pm broadcast | **Auto** |
-| `bufferlog.md` | Dual-instance comms archive | **Auto** |
-| `memory/diary.md` | Daily diary | Manual+Auto |
-| `products/FUND.md` | Money-making ledger | Manual |
+| `data/shared/bufferlog.md` | Dual-instance comms archive | **Auto** |
+| `data/shared/memory/diary.md` | Daily diary | Manual+Auto |
+| `data/shared/products/FUND.md` | Money-making ledger | Manual |
 
 ## 🔄 Sync Mechanism
 
