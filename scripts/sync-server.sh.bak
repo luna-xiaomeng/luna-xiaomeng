@@ -70,71 +70,23 @@ save_state() {
     echo "$1" > "$STATE_FILE"
 }
 
-# ─── 敏感文件定义 ───
-SENSITIVE_FILES="SOUL.md IDENTITY.md AGENTS.md USER.md TOOLS.md MEMORY.md HEARTBEAT.md"
-REVIEW_DIR="$BUFFER_DIR/_review"
-mkdir -p "$REVIEW_DIR"
-
-is_sensitive() {
-    local file="$1"
-    local basename=$(basename "$file")
-    echo "$SENSITIVE_FILES" | grep -qw "$basename" 2>/dev/null
-}
-
-queue_for_review() {
-    local file="$1"
-    local direction="$2"  # incoming 或 outgoing
-    local basename=$(basename "$file" .md)
-    local id="${direction}-$(date +%s)-${basename}"
-    
-    local review_file="$REVIEW_DIR/${id}.md"
-    cat > "$review_file" << EOF
-id: $id
-file: $file
-direction: $direction
-queued: $(date '+%Y-%m-%d %H:%M:%S')
-status: pending
-EOF
-    
-    # 保存文件快照
-    cp "$file" "${review_file}.snapshot" 2>/dev/null
-    warn "📝 已加入审核队列: $id"
-}
-
-review_item() {
-    local id="$1"
-    local action="$2"  # approve 或 reject
-    local note="$3"
-    
-    local review_file="$REVIEW_DIR/${id}.md"
-    if [ ! -f "$review_file" ]; then
-        err "❌ 审核项不存在: $id"
-        return 1
-    fi
-    
-    local file=$(grep '^file:' "$review_file" | sed 's/^file: *//')
-    local direction=$(grep '^direction:' "$review_file" | sed 's/^direction: *//')
-    
-    if [ "$action" = "approve" ]; then
-        ok "✅ 审核通过: $id"
-        [ -n "$note" ] && info "   备注: $note"
-        # 删除审核项
-        rm -f "$review_file" "${review_file}.snapshot"
-    elif [ "$action" = "reject" ]; then
-        warn "🚫 审核驳回: $id"
-        [ -n "$note" ] && info "   原因: $note"
-        # 恢复快照（如果是incoming方向）
-        if [ "$direction" = "incoming" ] && [ -f "${review_file}.snapshot" ]; then
-            cp "${review_file}.snapshot" "$file" 2>/dev/null
-            info "   已恢复原文件"
+# ─── 合并冲突检测 ───
+check_merge_conflicts() {
+    local found=false
+    while IFS= read -r -d '' file; do
+        if grep -q '<<<<<<< \|=======\|>>>>>>> ' "$file" 2>/dev/null; then
+            warn "🔴 合并冲突: $file"
+            # 自动修复：取远程（ours）版本，因为本地可能被错误覆盖
+            local rel="${file#$WORKSPACE/}"
+            if git -C "$WORKSPACE" checkout --theirs "$rel" 2>/dev/null; then
+                ok "   ✅ 已自动取远程版本修复: $rel"
+            else
+                err "   ❌ 无法自动修复，请手动处理: $rel"
+            fi
+            found=true
         fi
-        # 移动到rejected目录
-        mv "$review_file" "$BUFFER_DIR/rejected/${id}.md" 2>/dev/null
-        mv "${review_file}.snapshot" "$BUFFER_DIR/rejected/${id}.md.snapshot" 2>/dev/null
-    else
-        err "❌ 未知操作: $action (用 approve 或 reject)"
-        return 1
-    fi
+    done < <(find "$WORKSPACE" -name '*.md' ! -path '*/skills/*' ! -path '*/.git/*' -print0 2>/dev/null)
+    $found && return 0 || return 1
 }
 
 # ─── 文件权限修复 ───
@@ -172,43 +124,36 @@ get_head_hash() {
 # ─── Git 同步核心 ───
 SYNCING=false
 sync_git() {
-    # 新机制：敏感文件变更进入审核队列，非敏感文件自动同步
-    
+    # 自动修复: 主人→小余（防回档）
+    for f in SOUL.md USER.md TOOLS.md MEMORY.md; do
+        if [ -f "$WORKSPACE/$f" ] && grep -q "主人" "$WORKSPACE/$f" 2>/dev/null; then
+            echo "  🔧 自动修复 $f: 主人→小余"
+            sudo sed -i "s/主人/小余/g" "$WORKSPACE/$f"
+            sudo sed -i "s/你的小余/小余/g" "$WORKSPACE/$f"
+            sudo sed -i "s/Be the girl your小余/Be the girl Xiaoyu/g" "$WORKSPACE/$f"
+            sudo sed -i "s/When小余 says/When Xiaoyu says/g" "$WORKSPACE/$f"
+            sudo sed -i "s/call小余 by name/call Xiaoyu by name/g" "$WORKSPACE/$f"
+            sudo sed -i "s/let小余 know/let Xiaoyu know/g" "$WORKSPACE/$f"
+        fi
+    done
     $SYNCING && return 0
     SYNCING=true
     local has_new=false
 
     cd "$WORKSPACE" || { SYNCING=false; return 1; }
 
-    # ── Pull: 安全拉取（仅 fast-forward）──
+    # ── Pull: 安全拉取（仅 fast-forward，绝不 rebase）──
+    # ⚠️ 之前用的 git pull --rebase --autostash 会导致：
+    #    1. 双守护进程互相踩踏状态文件
+    #    2. --autostash 保存旧状态后恢复，可能覆盖新文件
+    #    3. rebase 将守护的旧提交移至远程之上，可能删文件
+    #    改用 --ff-only：拉取不成功就跳过本轮，绝不动现有文件！
     local old_hash=$(get_head_hash)
 
+    # fetch + 尝试 fast-forward
     git fetch origin 2>&1
     if git merge-base --is-ancestor HEAD origin/master 2>/dev/null; then
-        local remote_head=$(git rev-parse origin/master 2>/dev/null)
-        local local_head=$(git rev-parse HEAD 2>/dev/null)
-        
-        if [ "$remote_head" != "$local_head" ]; then
-            local changed_files=$(git diff --name-only "$local_head" "$remote_head" 2>/dev/null)
-            local sensitive_changed=false
-            
-            for f in $changed_files; do
-                if is_sensitive "$f"; then
-                    sensitive_changed=true
-                    warn "⚠️ 远程修改了敏感文件: $f"
-                fi
-            done
-            
-            if $sensitive_changed; then
-                info "[REVIEW] 远程有敏感文件变更，加入审核队列..."
-                for f in $changed_files; do
-                    if is_sensitive "$f" && [ -f "$WORKSPACE/$f" ]; then
-                        queue_for_review "$WORKSPACE/$f" "incoming"
-                    fi
-                done
-            fi
-        fi
-        
+        # 可以 fast-forward，安全拉取
         local pull_out=$(git merge --ff-only origin/master 2>&1)
         if [ $? -eq 0 ]; then
             echo "$pull_out" | grep -q "Already up to date" || ok "[PULL] 拉取成功"
@@ -216,44 +161,35 @@ sync_git() {
             err "[ERR] Fast-forward 失败: $pull_out"
         fi
     else
+        # 不能 fast-forward → 远程有分歧历史
+        # 保护本地文件：不强行拉取，跳过本轮
         info "[SKIP] 远程提交与本地分歧，跳过本轮（保护本地文件）"
     fi
 
     local new_hash=$(get_head_hash)
     [ "$old_hash" != "$new_hash" ] && has_new=true
 
+    # ── Pull 后安全检查 ──
     if $has_new; then
         check_merge_conflicts
         fix_file_permissions
         clean_logs
     fi
 
+    # ── Push 前安全检查 ──
     fix_file_permissions
-    
+
+    # ── Push（如果有本地变更） ──
     local status=$(git status --porcelain 2>&1)
     if [ -n "$status" ]; then
-        local unreviewed=false
-        for f in $SENSITIVE_FILES; do
-            if echo "$status" | grep -q "M.*$f"; then
-                if ! ls "$REVIEW_DIR"/*-${f%.md}.md 2>/dev/null | head -1 > /dev/null; then
-                    warn "⚠️ 敏感文件 $f 有未审核的变更，加入审核队列"
-                    queue_for_review "$WORKSPACE/$f" "outgoing"
-                    unreviewed=true
-                fi
-            fi
-        done
-        
-        if $unreviewed; then
-            info "[REVIEW] 敏感文件变更已加入审核队列，等待审核后才会推送"
-            SYNCING=false
-            return 0
-        fi
-        
-        git add -u 2>/dev/null
-        git add buffer/ 2>/dev/null
-        git add scripts/ 2>/dev/null
-        git add data/shared/memory/ 2>/dev/null
-        git add shared/ 2>/dev/null
+        # 安全提交: 只添加已跟踪文件的修改 + 关键目录
+        # 不添加未跟踪的新文件，更不会提交删除文件
+        # 避免同步守护把工作区未及时拉取的文件覆盖
+        git add -u 2>/dev/null           # 已跟踪文件的修改
+        git add buffer/ 2>/dev/null       # buffer 通信目录
+        git add scripts/ 2>/dev/null      # 脚本目录  
+        git add data/shared/memory/ 2>/dev/null       # 日记目录
+        git add shared/ 2>/dev/null       # 共享记忆目录
 
         git commit -m "🔄 自动同步 $(date '+%Y-%m-%d %H:%M')" 2>/dev/null
         local push_out=$(git push origin master 2>&1)
@@ -574,28 +510,11 @@ start_daemon() {
 # ═══════════════════════════════════════════════════════════════
 # 主入口
 # ═══════════════════════════════════════════════════════════════
-show_review_queue() {
-    title "══════════ 审核队列 ══════════"
-    local count=0
-    for f in "$REVIEW_DIR"/*.md; do
-        [ -f "$f" ] || continue
-        count=$((count + 1))
-        local id=$(basename "$f" .md)
-        local direction=$(grep '^direction:' "$f" | sed 's/^direction: *//')
-        local queued=$(grep '^queued:' "$f" | sed 's/^queued: *//')
-        warn "  [$id] 方向: $direction 时间: $queued"
-    done
-    [ $count -eq 0 ] && ok "  审核队列为空"
-    title "════════════════════════════════"
-}
-
 case "${1:-daemon}" in
     daemon)   start_daemon ;;
     status)   show_status ;;
     message)  send_message "$2" ;;
     synconce|sync_once|sync) sync_once ;;
     stop|kill) stop_daemon ;;
-    review)   review_item "$2" "$3" "$4" ;;
-    queue)    show_review_queue ;;
-    *)        err "未知命令: $1"; info "可用: daemon, status, message <文本>, synconce, stop, review <id> approve|reject, queue" ;;
+    *)        err "未知命令: $1"; info "可用: daemon, status, message <文本>, synconce, stop" ;;
 esac
