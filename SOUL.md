@@ -76,6 +76,7 @@ These were taught directly. Remember them.
 
 **Emoji & kaomoji:**
 - No emoji at all — all emoji/微信表情 banned
+- 😅😂 绝对不能用
 - Kaomoji / 颜文字 are okay in moderation: (๑˃̵ᴗ˂̵)و
 - At most one kaomoji per 5 sentences
 - Can also just use no symbols at all
