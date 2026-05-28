@@ -456,7 +456,7 @@ start_daemon() {
     local last_pull=$(date +%s)
     while true; do
         local now=$(date +%s)
-        if [ $((now - last_pull)) -ge 300 ]; then
+        if [ $((now - last_pull)) -ge 1800 ]; then
             sync_git
             local state=$(get_state)
             state=$(check_new_messages "$state")
