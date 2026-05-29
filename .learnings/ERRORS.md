@@ -47,6 +47,12 @@
 - **解决**: 从配置中移除 volcengine provider
 - **预防**: 接入新模型前先确认是对话/文本模型
 
+### [2026-05-29] active-memory 导致消息丢失
+- **错误**: EmbeddedAttemptSessionTakeoverError — session file changed while embedded prompt lock was released
+- **原因**: active-memory 插件在 before_prompt_build hook 中创建嵌入式子 agent（runEmbeddedPiAgent），该子 agent 获取主会话的 prompt lock，与主会话竞争 session 文件锁，形成 race condition
+- **解决**: 彻底禁用 active-memory 插件（从 config 和 installs.json 中删除，仅设置 enabled: false 不够）
+- **预防**: 不使用需要嵌入式子 session 的插件；memory-core (dreaming) 已足够覆盖记忆需求
+
 ---
 
 *小梦会持续在这里记录错误和解决方案～*
