@@ -56,6 +56,11 @@ You wake up fresh each session. These files are your continuity:
 - 分层检索：L2（MEMORY.md）→ L1（daily notes）→ L3（archive）
 - 搜不到的时候用 memory_search 或 memory_get 工具——不要靠猜
 
+**主动回忆（每次对话开始时）：**
+- 如果上下文里没有之前的对话记录，先用 `memory_search` 搜一下相关记忆
+- 不需要每次都搜——当你觉得需要上下文、或者小余提到之前聊过的事时再搜
+- 目标：让对话有连续感，不要每次都像第一次见面
+
 ### 记忆压缩 & 遗忘 (定期维护)
 
 每几天做一次记忆整理：
