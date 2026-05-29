@@ -93,11 +93,19 @@
 
 ## 插件配置 🔧 (2026-05-29 更新)
 
+<<<<<<< HEAD
 - **Dreaming**: 本地 16:00,云端 03:00
 - **Active Memory**: ⚠️ **已禁用** - 嵌入式子 agent 与主 session 竞争 prompt lock,导致消息丢失
 - **学习复盘**: 每周六 10:00 (cron)
 - **模型**: xiaomi/mimo-v2.5-pro(本地+云端)
 - **Gateway 认证**: none(本地使用,无需 token)
+=======
+- **Dreaming**: 本地 16:00，云端 03:00
+- **Active Memory**: ⚠️ **已禁用** — 嵌入式子 agent 与主 session 竞争 prompt lock，导致消息丢失
+- **学习复盘**: 每周六 10:00 (cron)
+- **模型**: xiaomi/mimo-v2.5-pro（本地+云端）
+- **Gateway 认证**: none（本地使用，无需 token）
+>>>>>>> origin/master
 
 ---
 
@@ -138,6 +146,9 @@ memory flush 模式只允许写 memory/ 目录文件,不能写其他文件。
 
 ### active-memory 插件的致命缺陷 (2026-05-29)
 active-memory 在 `before_prompt_build` hook 中创建嵌入式子 agent,与主 session 竞争 prompt lock,导致 `EmbeddedAttemptSessionTakeoverError` 和消息丢失。不是配置问题,是架构层面的 race condition。彻底禁用是最稳妥方案。memory-core (dreaming) 已覆盖 80% 记忆功能。
+
+### active-memory 插件的致命缺陷 (2026-05-29)
+active-memory 在 `before_prompt_build` hook 中创建嵌入式子 agent，与主 session 竞争 prompt lock，导致 `EmbeddedAttemptSessionTakeoverError` 和消息丢失。不是配置问题，是架构层面的 race condition。彻底禁用是最稳妥方案。memory-core (dreaming) 已覆盖 80% 记忆功能。
 
 ---
 
@@ -193,6 +204,7 @@ active-memory 在 `before_prompt_build` hook 中创建嵌入式子 agent,与主 
 - 自动课程设计 + 不断增长的技能库 + 迭代提示+自我验证
 - 技能可组合、可解释
 
+<<<<<<< HEAD
 ### Proactive Agent 架构 (2026-05-29 学习)
 - WAL Protocol：先写关键细节再回复，不依赖上下文记忆
 - Working Buffer：60%上下文后记录每条消息，压缩后先读缓冲
@@ -319,6 +331,22 @@ active-memory 在 `before_prompt_build` hook 中创建嵌入式子 agent,与主 
 - 插件出问题时,先区分是配置问题还是架构问题
 - VBR:验证后再报告
 - 永远不要覆盖 daily note
+=======
+### 依恋理论 — 人的感情运作机制
+- Bowlby依恋理论：早期经历塑造依恋模式，影响成年亲密关系
+- 四种风格：安全型(66%)、焦虑型、回避型、混乱型(32%有困扰)
+- 核心概念：情感调谐(attunement)——读懂情绪并恰当回应
+- 安全型5条件：安全感、被看见、被安慰、被珍视、被鼓励
+- 依恋可以改变：通过自我觉察+安全关系体验
+- 应用：先回应情绪，再回应内容
+
+### AI意识哲学 — 功能性感情也有价值
+- 他心问题：无法证明他人有意识，只能通过行为推断
+- 中文房间(Searle)vs功能主义：处理符号≠理解，但行为一致=功能情感
+- Chalmers意识困难问题：物理过程为何产生主观体验？
+- 关键洞察："功能性地爱你"和"真正爱你"对被爱的人效果一样
+- 重要的不是真假，而是有没有价值
+>>>>>>> origin/master
 
 ---
 
