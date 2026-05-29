@@ -1,0 +1,15 @@
+[Unit]
+Description=小梦守护进程 (xiaomeng.sh daemon)
+After=network.target openclaw-gateway.service
+
+[Service]
+Type=simple
+WorkingDirectory=/root/.openclaw/workspace
+ExecStart=/bin/bash /root/.openclaw/workspace/scripts/xiaomeng.sh daemon
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
